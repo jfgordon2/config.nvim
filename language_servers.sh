@@ -7,6 +7,7 @@ brew install fzf
 brew install codespell
 brew install lazygit
 brew install lua
+brew install luacheck
 brew install luajit
 brew install luarocks
 brew install shellcheck

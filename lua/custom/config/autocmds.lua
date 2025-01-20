@@ -30,3 +30,14 @@ vim.api.nvim_create_autocmd('TermOpen', {
     vim.opt.laststatus = 0
   end,
 })
+
+-- Set the CWD to the root directory of the currently open file
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = '*',
+  callback = function()
+    local root_path = Snacks.git.get_root()
+    if root_path then
+      vim.cmd('cd ' .. root_path)
+    end
+  end,
+})

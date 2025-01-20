@@ -8,33 +8,33 @@ vim.keymap.set('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'Return terminal to no
 -- open a terminal along the bottom of the screen that we can send commands to
 local job_id = 0
 vim.keymap.set('n', '<space>to', function()
-  vim.cmd.vnew()
-  vim.cmd.term()
-  vim.cmd.wincmd 'J'
-  vim.api.nvim_win_set_height(0, 15)
+    vim.cmd.vnew()
+    vim.cmd.term()
+    vim.cmd.wincmd 'J'
+    vim.api.nvim_win_set_height(0, 15)
 
-  job_id = vim.bo.channel
+    job_id = vim.bo.channel
 end, { desc = '[T]erminal: [O]pen' })
 
 local current_command = ''
 vim.keymap.set('n', '<space>te', function()
-  current_command = vim.fn.input 'Command: '
-  if job_id ~= 0 then
-    vim.fn.chansend(job_id, { current_command .. '\r\n' })
-  else
-    vim.cmd 'echo "Terminal is not open"'
-  end
+    current_command = vim.fn.input 'Command: '
+    if job_id ~= 0 then
+        vim.fn.chansend(job_id, { current_command .. '\r\n' })
+    else
+        vim.cmd 'echo "Terminal is not open"'
+    end
 end, { desc = '[T]erminal: [E]xecute a command' })
 
 vim.keymap.set('n', '<space>tr', function()
-  if current_command == '' then
-    current_command = vim.fn.input 'Command: '
-  end
-  if job_id ~= 0 then
-    vim.fn.chansend(job_id, { current_command .. '\r\n' })
-  else
-    vim.cmd 'echo "Terminal is not open"'
-  end
+    if current_command == '' then
+        current_command = vim.fn.input 'Command: '
+    end
+    if job_id ~= 0 then
+        vim.fn.chansend(job_id, { current_command .. '\r\n' })
+    else
+        vim.cmd 'echo "Terminal is not open"'
+    end
 end, { desc = '[T]erminal: [R]epeat last command' })
 
 -- [[ Basic Keymaps ]]
@@ -72,43 +72,56 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- lazygit
 if vim.fn.executable 'lazygit' == 1 then
-  vim.keymap.set('n', '<leader>gg', function()
-    ---@diagnostic disable-next-line: missing-fields
-    Snacks.lazygit { cwd = Snacks.git.get_root() }
-  end, { desc = '[G]it: Lazygit (Root Dir)' })
-  vim.keymap.set('n', '<leader>gG', function()
-    Snacks.lazygit()
-  end, { desc = '[G]it: Lazygit (cwd)' })
-  vim.keymap.set('n', '<leader>gf', function()
-    Snacks.picker.git_log_file()
-  end, { desc = '[G]it: Current [F]ile History' })
-  vim.keymap.set('n', '<leader>gl', function()
-    ---@diagnostic disable-next-line: missing-fields
-    Snacks.picker.git_log { cwd = Snacks.git.get_root() }
-  end, { desc = '[G]it: [L]og' })
-  vim.keymap.set('n', '<leader>gL', function()
-    Snacks.picker.git_log()
-  end, { desc = '[G]it [L]og (cwd)' })
+    vim.keymap.set('n', '<leader>gg', function()
+        ---@diagnostic disable-next-line: missing-fields
+        Snacks.lazygit { cwd = Snacks.git.get_root() }
+    end, { desc = '[G]it: Lazygit (Root Dir)' })
+    vim.keymap.set('n', '<leader>gG', function()
+        Snacks.lazygit()
+    end, { desc = '[G]it: Lazygit (cwd)' })
+    vim.keymap.set('n', '<leader>gf', function()
+        Snacks.picker.git_log_file()
+    end, { desc = '[G]it: Current [F]ile History' })
+    vim.keymap.set('n', '<leader>gl', function()
+        ---@diagnostic disable-next-line: missing-fields
+        Snacks.picker.git_log { cwd = Snacks.git.get_root() }
+    end, { desc = '[G]it: [L]og' })
+    vim.keymap.set('n', '<leader>gL', function()
+        Snacks.picker.git_log()
+    end, { desc = '[G]it [L]og (cwd)' })
 end
 if vim.fn.executable 'gh' == 1 then
-  vim.keymap.set('n', '<leader>gb', function()
-    vim.fn.system 'gh browse'
-  end, { desc = '[G]it: [B]rowse' })
+    vim.keymap.set('n', '<leader>gb', function()
+        vim.fn.system 'gh browse'
+    end, { desc = '[G]it: [B]rowse' })
 end
 
 -- Notifier
 vim.keymap.set('n', '<leader>nn', function()
-  Snacks.notifier.show_history()
+    Snacks.notifier.show_history()
 end, { desc = '[N]notifications: Show [N]notifications History' })
 vim.keymap.set('n', '<leader>nh', function()
-  Snacks.notifier.hide()
+    Snacks.notifier.hide()
 end, { desc = '[N]notifications: [H]ide' })
 vim.keymap.set('n', '<leader>ng', function()
-  Snacks.notifier.get_history()
+    Snacks.notifier.get_history()
 end, { desc = '[N]notifications: [G]et History' })
 
--- Dashboard
-vim.keymap.set('n', '<leader>wd', function()
-  Snacks.dashboard.open()
-end, { desc = '[W]orkspace: Show [D]ashboard' })
+-- GitHub Notifications
+vim.api.nvim_set_keymap('n', '<leader>gn', '<cmd>GHNotifications<CR>', { noremap = true, silent = true, desc = 'GitHub Notifications' })
 
+-- Workspace
+vim.keymap.set('n', '<leader>wd', function()
+    Snacks.dashboard.open()
+end, { desc = '[W]orkspace: Show [D]ashboard' })
+vim.keymap.set('n', '<leader>wf', function()
+    os.execute('open ' .. Snacks.git.get_root())
+end, { desc = '[W]orkspce: Open in Finder' })
+
+-- Buffers
+vim.keymap.set('n', '<leader>bd', function()
+    Snacks.bufdelete()
+end, { desc = 'Delete Buffer' })
+vim.keymap.set('n', '<leader>bo', function()
+    Snacks.bufdelete.other()
+end, { desc = 'Delete Other Buffers' })

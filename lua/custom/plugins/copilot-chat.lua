@@ -61,6 +61,12 @@ return {
         desc = '[a]i: [Q]uick Chat (CopilotChat)',
         mode = { 'n', 'v' },
       },
+      {
+        '<leader>cc',
+        ':CopilotChatFixDiagnostic<CR>',
+        desc = '[C]ode: [C]opilot fix diagnostic',
+        mode = { 'n', 'v' },
+      },
       -- Show prompts actions with telescope
       { '<leader>ap', M.pick 'prompt', desc = '[a]i: [P]rompt Actions (CopilotChat)', mode = { 'n', 'v' } },
     },
