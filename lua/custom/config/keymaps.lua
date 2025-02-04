@@ -107,8 +107,15 @@ vim.keymap.set('n', '<leader>ng', function()
     Snacks.notifier.get_history()
 end, { desc = '[N]notifications: [G]et History' })
 
+-- Copilot
+vim.keymap.set('n', '<leader>aa', '<cmd>CodeCompanionActions<CR>', { desc = '[A]i: [A]ctions palette' })
+vim.keymap.set('n', '<leader>ac', '<cmd>CodeCompanionChat<CR>', { desc = '[A]i: Chat' })
+
 -- GitHub Notifications
 vim.api.nvim_set_keymap('n', '<leader>gn', '<cmd>GHNotifications<CR>', { noremap = true, silent = true, desc = 'GitHub Notifications' })
+
+-- Fugitive Keymaps
+vim.keymap.set('n', '<leader>gv', '<cmd>Gvdiffsplit<CR>', { noremap = true, silent = true, desc = '[G]it: [V]ertical Diffsplit' })
 
 -- Workspace
 vim.keymap.set('n', '<leader>wd', function()
@@ -117,6 +124,21 @@ end, { desc = '[W]orkspace: Show [D]ashboard' })
 vim.keymap.set('n', '<leader>wf', function()
     os.execute('open ' .. Snacks.git.get_root())
 end, { desc = '[W]orkspce: Open in Finder' })
+vim.keymap.set('n', '<leader>ww', function()
+    local on_exit = function(obj)
+        if obj.code == 0 then
+            vim.schedule(function()
+                local normalize = string.gsub(obj.stdout, '"', '')
+                vim.notify(normalize, vim.log.levels.INFO, { title = 'Davenport, IA' })
+            end)
+        else
+            vim.schedule(function()
+                vim.notify(vim.json.encode(obj))
+            end)
+        end
+    end
+    vim.system({ 'curl', '-s', 'https://wttr.in/52803?format="%c%20Actual:%20%t,%20Feels:%20%f%20Precip:%20%p"&u' }, { text = true }, on_exit)
+end, { desc = '[W]orkspace: Show [W]eather' })
 
 -- Buffers
 vim.keymap.set('n', '<leader>bd', function()
@@ -125,3 +147,13 @@ end, { desc = 'Delete Buffer' })
 vim.keymap.set('n', '<leader>bo', function()
     Snacks.bufdelete.other()
 end, { desc = 'Delete Other Buffers' })
+
+-- Diagnostics
+
+vim.keymap.set('n', '<leader>tt', function()
+    if vim.diagnostic.is_enabled() then
+        vim.diagnostic.enable(false)
+    else
+        vim.diagnostic.enable(true)
+    end
+end, { noremap = true, silent = true, desc = '[T]oggle [T]rouble Diagnositcs' })

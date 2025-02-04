@@ -5,7 +5,7 @@
 --     Snacks.debug.backtrace()
 -- end
 -- vim.print = _G.dd
---
+
 require 'custom.lazy'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
