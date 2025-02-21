@@ -7,5 +7,6 @@ return {
             '<C-b>',
             '<C-f>',
         },
+        hide_cursor = false,
     },
 }
