@@ -27,6 +27,11 @@ brew install tflint
 brew install tfsec
 brew install yamllint
 
+cargo install htmx-lsp
+npm install -g @tailwindcss/language-server
+npm install -g @vtsls/language-server
+npm install -g vscode-langservers-extracted
+
 # npm install -g @ansible/ansible-language-server
 # npm install -g awk-language-server
 # npm install -g bash-language-server

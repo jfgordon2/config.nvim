@@ -1,37 +1,113 @@
 -- LSP Plugins
+
 return {
     {
-        -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-        -- used for completion, annotations and signatures of Neovim apis
         'folke/lazydev.nvim',
         ft = 'lua',
         cmd = 'LazyDev',
         opts = {
             library = {
-                -- Load luvit types when the `vim.uv` word is found
                 { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
             },
         },
     },
     {
-        -- Main LSP Configuration
         'neovim/nvim-lspconfig',
         dependencies = {
-            -- Automatically install LSPs and related tools to stdpath for Neovim
-            -- Mason must be loaded before its dependents so we need to set it up here.
-            -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
             { 'williamboman/mason.nvim', opts = {} },
             'williamboman/mason-lspconfig.nvim',
             'WhoIsSethDaniel/mason-tool-installer.nvim',
-
-            -- Useful status updates for LSP.
             { 'j-hui/fidget.nvim', opts = {} },
-
-            -- Allows extra capabilities provided by nvim-cmp
-            -- 'hrsh7th/cmp-nvim-lsp',
-            { 'saghen/blink.cmp' },
+            'saghen/blink.cmp',
         },
-        config = function()
+        opts = {
+            servers = {
+                gopls = {},
+                basedpyright = {},
+                rust_analyzer = {},
+                ansiblels = {},
+                docker_compose_language_service = {},
+                dockerls = {},
+                bashls = {},
+                tailwindcss = {},
+                eslint = {},
+                htmx = {},
+                taplo = {},
+                jqls = {},
+                biome = {
+                    settings = {
+                        json = {
+                            format = {
+                                enable = true,
+                                defaultConfig = {
+                                    indent_size = '4',
+                                    indent_style = 'space',
+                                },
+                            },
+                        },
+                    },
+                },
+                ruff = {},
+                terraformls = {},
+                yamlls = {
+                    settings = {
+                        yaml = {
+                            customTags = {
+                                '!And sequence',
+                                '!And',
+                                '!And sequence',
+                                '!If',
+                                '!If sequence',
+                                '!Not',
+                                '!Not sequence',
+                                '!Equals',
+                                '!Equals sequence',
+                                '!Or',
+                                '!Or sequence',
+                                '!FindInMap',
+                                '!FindInMap sequence',
+                                '!Base64',
+                                '!Join',
+                                '!Join sequence',
+                                '!Cidr',
+                                '!Ref',
+                                '!Sub',
+                                '!Sub sequence',
+                                '!GetAtt',
+                                '!GetAZs',
+                                '!ImportValue',
+                                '!ImportValue sequence',
+                                '!Select',
+                                '!Select sequence',
+                                '!Split',
+                                '!Split sequence',
+                            },
+                            schemas = {
+                                ['https://raw.githubusercontent.com/kedro-org/kedro/develop/static/jsonschema/kedro-catalog-0.17.json'] = 'conf/**/*catalog*',
+                                ['https://json.schemastore.org/github-workflow.json'] = '/.github/workflows/*',
+                            },
+                        },
+                    },
+                },
+                lua_ls = {
+                    settings = {
+                        Lua = {
+                            completion = {
+                                callSnippet = 'Replace',
+                            },
+                            format = {
+                                enable = true,
+                                defaultConfig = {
+                                    indent_style = 'space',
+                                    indent_size = '4',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        config = function(_, opts)
             -- Brief aside: **What is LSP?**
             --
             -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -118,7 +194,7 @@ return {
                     -- When you move your cursor, the highlights will be cleared (the second autocommand).
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
                     ---@diagnostic disable-next-line: param-type-mismatch, missing-parameter
-                    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+                    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
                         local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
                         vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
                             buffer = event.buf,
@@ -146,7 +222,7 @@ return {
                     --
                     -- This may be unwanted, since they displace some of your code
                     ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-                    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+                    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
                         map('<leader>th', function()
                             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
                         end, '[T]oggle Inlay [H]ints')
@@ -164,159 +240,27 @@ return {
                 vim.diagnostic.config { signs = { text = diagnostic_signs } }
             end
 
-            -- LSP servers and clients are able to communicate to each other what features they support.
-            --  By default, Neovim doesn't support everything that is in the LSP specification.
-            --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.nvim-cmpnvim-cmp
-            --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-
-            -- Enable the following language servers
-            --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-            --
-            --  Add any additional override configuration in the following tables. Available keys are:
-            --  - cmd (table): Override the default command used to start the server
-            --  - filetypes (table): Override the default list of associated filetypes for the server
-            --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-            --  - settings (table): Override the default settings passed when initializing the server.
-            --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-            local servers = {
-                -- clangd = {},
-                gopls = {},
-                --pyright = {},
-                basedpyright = {},
-                rust_analyzer = {},
-                ansiblels = {},
-                docker_compose_language_service = {},
-                dockerls = {},
-                bashls = {},
-                -- codeqlls = {},
-                tailwindcss = {},
-                eslint = {},
-                -- gh_actions_ls = {},
-                htmx = {},
-                taplo = {},
-                jqls = {},
-                biome = {
-                    settings = {
-                        json = {
-                            format = {
-                                enable = true,
-                                defaultConfig = {
-                                    indent_size = '4',
-                                    indent_style = 'space',
-                                },
-                            },
-                        },
-                    },
-                },
-                vale_ls = {},
-                ruff = {},
-                terraformls = {},
-                yamlls = {
-                    settings = {
-                        yaml = {
-                            customTags = {
-                                '!And sequence',
-                                '!And',
-                                '!And sequence',
-                                '!If',
-                                '!If sequence',
-                                '!Not',
-                                '!Not sequence',
-                                '!Equals',
-                                '!Equals sequence',
-                                '!Or',
-                                '!Or sequence',
-                                '!FindInMap',
-                                '!FindInMap sequence',
-                                '!Base64',
-                                '!Join',
-                                '!Join sequence',
-                                '!Cidr',
-                                '!Ref',
-                                '!Sub',
-                                '!Sub sequence',
-                                '!GetAtt',
-                                '!GetAZs',
-                                '!ImportValue',
-                                '!ImportValue sequence',
-                                '!Select',
-                                '!Select sequence',
-                                '!Split',
-                                '!Split sequence',
-                            },
-                        },
-                    },
-                },
-                -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-                --
-                -- Some languages (like typescript) have entire language plugins that can be useful:
-                --    https://github.com/pmizio/typescript-tools.nvim
-                --
-                -- But for many setups, the LSP (`ts_ls`) will work just fine
-                -- ts_ls = {},
-                --
-
-                lua_ls = {
-                    -- cmd = { ... },
-                    -- filetypes = { ... },
-                    -- capabilities = {},
-                    settings = {
-                        Lua = {
-                            completion = {
-                                callSnippet = 'Replace',
-                            },
-                            format = {
-                                enable = true,
-                                defaultConfig = {
-                                    indent_style = 'space',
-                                    indent_size = '4',
-                                },
-                            },
-                            -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-                            -- diagnostics = { disable = { 'missing-fields' } },
-                        },
-                    },
-                },
-            }
-
-            -- Ensure the servers and tools above are installed
-            --
-            -- To check the current status of installed tools and/or manually install
-            -- other tools, you can run
-            --    :Mason
-            --
-            -- You can press `g?` for help in this menu.
-            --
-            -- `mason` had to be setup earlier: to configure its options see the
-            -- `dependencies` table for `nvim-lspconfig` above.
-            --
-            -- You can add other tools here that you want Mason to install
-            -- for you, so that they are available from within Neovim.
-            local ensure_installed = vim.tbl_keys(servers or {})
+            local ensure_installed = vim.tbl_keys(opts.servers or {})
             vim.list_extend(ensure_installed, {
                 'stylua', -- Used to format Lua code
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-            ---@diagnostic disable-next-line: missing-fields
-            require('mason-lspconfig').setup {
-                handlers = {
-                    function(server_name)
-                        local server = servers[server_name] or {}
-                        -- This handles overriding only values explicitly passed
-                        -- by the server configuration above. Useful when disabling
-                        -- certain features of an LSP (for example, turning off formatting for ts_ls)
-                        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-                        require('lspconfig')[server_name].setup(server)
-                    end,
-                },
-            }
-            for server, config in pairs(servers) do
-                config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities or {})
-                require('lspconfig')[server].setup(config)
+            local lspconfig = require 'lspconfig'
+            for server, config in pairs(opts.servers) do
+                config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+                lspconfig[server].setup(config)
             end
         end,
+    },
+    {
+        'nvimdev/lspsaga.nvim',
+        config = function()
+            require('lspsaga').setup {}
+        end,
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+            'nvim-tree/nvim-web-devicons',
+        },
     },
 }

@@ -157,3 +157,6 @@ vim.keymap.set('n', '<leader>tt', function()
         vim.diagnostic.enable(true)
     end
 end, { noremap = true, silent = true, desc = '[T]oggle [T]rouble Diagnositcs' })
+
+-- typescript hover doc
+vim.keymap.set('n', 'K', '<cmd>Lspsaga hover_doc<CR>', { desc = 'Hover function definition' })
