@@ -1,0 +1,40 @@
+-- Treesitter - Syntax highlighting
+-- Advanced syntax highlighting and parsing
+
+return {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    event = { 'BufReadPost', 'BufNewFile' },
+    main = 'nvim-treesitter.configs',
+    opts = {
+        ensure_installed = {
+            'bash',
+            'c',
+            'diff',
+            'html',
+            'javascript',
+            'jsdoc',
+            'json',
+            'jsonc',
+            'lua',
+            'luadoc',
+            'luap',
+            'markdown',
+            'markdown_inline',
+            'printf',
+            'python',
+            'query',
+            'regex',
+            'toml',
+            'tsx',
+            'typescript',
+            'vim',
+            'vimdoc',
+            'xml',
+            'yaml',
+        },
+        auto_install = true,
+        highlight = { enable = true },
+        indent = { enable = true },
+    },
+}

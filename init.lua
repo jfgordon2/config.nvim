@@ -1,12 +1,7 @@
--- _G.dd = function(...)
---     Snacks.debug.inspect(...)
--- end
--- _G.bt = function()
---     Snacks.debug.backtrace()
--- end
--- vim.print = _G.dd
+-- Neovim Configuration Entry Point
+-- Load configuration which will set up everything
 
-require 'custom.lazy'
+require 'config'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
