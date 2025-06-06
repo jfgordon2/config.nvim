@@ -4,9 +4,6 @@
 ---@class LazyVim
 local M = {}
 
--- Make LazyVim globally available
-_G.LazyVim = M
-
 -- Set up the config reference that plugins expect
 M.config = require 'config.defaults'
 

@@ -20,7 +20,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
         lazypath,
     }
 end
-vim.opt.rtp:prepend(lazypath)
+---@type vim.Option
+local rtp = vim.opt.rtp
+rtp:prepend(lazypath)
 
 -- Setup lazy.nvim with explicit plugin list
 require('lazy').setup({

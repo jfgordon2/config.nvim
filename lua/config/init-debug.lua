@@ -3,17 +3,14 @@
 
 print '🔍 ENHANCED DEBUG: Starting config load...'
 
--- Initialize LazyVim utilities first
-_G.LazyVim = require 'core.utils'
-
--- Load configuration defaults
-require 'config.defaults'
+-- Initialize LazyVim utilities and config defaults first
+_G.LazyVim = require 'config.utils'
 
 -- Load vim options early
 require 'config.options'
 
 -- Setup lazy.nvim and load plugins
-require 'core.lazy'
+require 'config.lazy'
 
 -- Check what plugins were loaded with names
 vim.defer_fn(function()

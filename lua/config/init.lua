@@ -1,17 +1,14 @@
 -- Main configuration entry point
 -- This file orchestrates the loading of all configuration modules
 
--- Initialize LazyVim utilities first
-_G.LazyVim = require 'core.utils'
-
--- Load configuration defaults
-require 'config.defaults'
+-- Initialize LazyVim utilities and config defaults first
+_G.LazyVim = require 'config.utils'
 
 -- Load vim options early
 require 'config.options'
 
 -- Setup lazy.nvim and load plugins
-require 'core.lazy'
+require 'config.lazy'
 
 -- Setup autocmds and keymaps after plugins load
 vim.api.nvim_create_autocmd('User', {
