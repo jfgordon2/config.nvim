@@ -10,6 +10,7 @@ return {
                 'size',
                 'mtime',
             },
+            default_file_explorer = false,
             delete_to_trash = true,
             view_options = {
                 show_hidden = true,
@@ -19,10 +20,21 @@ return {
             },
         },
         dependencies = {
-            { 'echasnovski/mini.icons', opts = {} },
+            { 'nvim-tree/nvim-web-devicons' },
         },
     },
     {
-        vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' }),
+        vim.keymap.set('n', '-', '<CMD>Oil --float<CR>', { desc = 'Open parent directory' }),
+    },
+    {
+        'Eutrius/Otree.nvim',
+        lazy = false,
+        dependencies = {
+            'stevearc/oil.nvim',
+            'nvim-tree/nvim-web-devicons',
+        },
+        config = function()
+            require('Otree').setup()
+        end,
     },
 }

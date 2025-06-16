@@ -40,7 +40,7 @@ return {
             diagnostics = 'nvim_lsp',
             always_show_bufferline = false,
             diagnostics_indicator = function(_, _, diag)
-                local icons = LazyVim.config.icons.diagnostics
+                local icons = _G.LazyVim.config.icons.diagnostics
                 local ret = (diag.error and icons.Error .. diag.error .. ' ' or '') .. (diag.warning and icons.Warn .. diag.warning or '')
                 return vim.trim(ret)
             end,
@@ -52,9 +52,17 @@ return {
                     text_align = 'left',
                 },
             },
+            buffer_close_icon = _G.LazyVim.config.icons.misc.buffer_close_icon or '󰅖',
+            modified_icon = _G.LazyVim.config.icons.misc.modified_icon or '● ',
+            close_icon = _G.LazyVim.config.icons.misc.close_icon or ' ',
+            left_trunc_marker = _G.LazyVim.config.icons.misc.left_trunc_marker or ' ',
+            right_trunc_marker = _G.LazyVim.config.icons.misc.right_trunc_marker or ' ',
+            color_icons = true,
             get_element_icon = function(opts)
-                return LazyVim.config.icons.ft[opts.filetype]
+                local icon, hl = require('nvim-web-devicons').get_icon_by_filetype(opts.filetype, { default = false })
+                return icon, hl
             end,
+            separator_style = { '󰽣', '󰽡' },
         },
     },
     config = function(_, opts)

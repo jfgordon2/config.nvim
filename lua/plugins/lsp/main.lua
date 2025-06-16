@@ -34,34 +34,54 @@ return {
         },
         opts = {
             servers = {
-                gopls = {},
-                basedpyright = {},
-                rust_analyzer = {},
                 ansiblels = {},
-                codeqlls = {},
-                docker_compose_language_service = {},
-                dockerls = {},
+                basedpyright = {},
                 bashls = {},
-                tailwindcss = {},
-                eslint = {},
-                gh_actions_ls = {},
-                htmx = {},
-                taplo = {},
-                jqls = {},
                 biome = {
                     settings = {
                         json = {
                             format = {
                                 enable = true,
                                 defaultConfig = {
-                                    indent_size = '4',
+                                    indent_size = '2',
                                     indent_style = 'space',
                                 },
                             },
                         },
                     },
                 },
+                codeqlls = {},
+                cssls = {},
+                docker_compose_language_service = {},
+                dockerls = {},
+                eslint = {},
+                gh_actions_ls = {},
+                gopls = {},
+                html = {},
+                -- htmx = {},
+                jqls = {},
+                jsonls = {},
+                lua_ls = {
+                    settings = {
+                        Lua = {
+                            completion = {
+                                callSnippet = 'Replace',
+                            },
+                            format = {
+                                enable = true,
+                                defaultConfig = {
+                                    indent_style = 'space',
+                                    indent_size = '4',
+                                },
+                            },
+                        },
+                    },
+                },
                 ruff = {},
+                rust_analyzer = {},
+                sqlls = {},
+                tailwindcss = {},
+                taplo = {},
                 terraformls = {},
                 yamlls = {
                     settings = {
@@ -99,22 +119,6 @@ return {
                             schemas = {
                                 ['https://raw.githubusercontent.com/kedro-org/kedro/develop/static/jsonschema/kedro-catalog-0.17.json'] = 'conf/**/*catalog*',
                                 ['https://json.schemastore.org/github-workflow.json'] = '/.github/workflows/*',
-                            },
-                        },
-                    },
-                },
-                lua_ls = {
-                    settings = {
-                        Lua = {
-                            completion = {
-                                callSnippet = 'Replace',
-                            },
-                            format = {
-                                enable = true,
-                                defaultConfig = {
-                                    indent_style = 'space',
-                                    indent_size = '4',
-                                },
                             },
                         },
                     },
@@ -293,6 +297,9 @@ return {
             local ensure_installed = vim.tbl_keys(opts.servers or {})
             vim.list_extend(ensure_installed, {
                 'stylua', -- Used to format Lua code
+                'yamlfmt',
+                'ts_ls',
+                'sonarlint-language-server',
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -304,15 +311,11 @@ return {
         end,
     },
     {
-        'nvimdev/lspsaga.nvim',
-        config = function()
-            require('lspsaga').setup {
-                ui = { code_action = _G.LazyVim.config.icons.misc.lightning or '󱐋' },
-            }
-        end,
+        'pmizio/typescript-tools.nvim',
         dependencies = {
-            'nvim-treesitter/nvim-treesitter',
-            'nvim-tree/nvim-web-devicons',
+            'nvim-lua/plenary.nvim',
+            'neovim/nvim-lspconfig',
         },
+        opts = {},
     },
 }

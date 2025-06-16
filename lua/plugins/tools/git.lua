@@ -20,7 +20,7 @@ return {
             signs = {
                 add = { text = _G.LazyVim.config.icons.git.added or ' ' },
                 change = { text = _G.LazyVim.config.icons.git.modified or ' ' },
-                delete = { text = _G.LazyVim.config.icons.git.removd or ' ' },
+                delete = { text = _G.LazyVim.config.icons.git.removed or ' ' },
                 topdelete = { text = _G.LazyVim.config.icons.git.topdelete or '‾' },
                 changedelete = { text = _G.LazyVim.config.icons.git.changedelete or '~' },
             },

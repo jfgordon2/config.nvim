@@ -47,6 +47,7 @@ return {
             { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
             { '<leader>d', group = '[D]ocument' },
             { '<leader>e', group = '[E]xplore' },
+            { '<leader>f', group = '[F]loaterm' },
             { '<leader>g', group = '[G]it', mode = { 'n', 'v' } },
             { '<leader>n', group = '[N]otifications' },
             { '<leader>q', group = 'Session Management' },

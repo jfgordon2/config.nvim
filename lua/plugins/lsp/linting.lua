@@ -10,7 +10,7 @@ return {
             markdown = { 'markdownlint' },
             docker = { 'hadolint' },
             hcl = { 'terraform_validate' },
-            javascript = { 'eslint' },
+            javascript = { 'biomejs' },
             json = { 'jsonlint' },
             python = { 'ruff' },
             sh = { 'shellcheck' },

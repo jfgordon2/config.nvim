@@ -56,5 +56,19 @@ return {
                 mappings = { ['\\'] = 'close_window' },
             },
         },
+        default_component_configs = {
+            git_status = {
+                symbols = {
+                    added = _G.LazyVim.config.icons.git.added,
+                    deleted = _G.LazyVim.config.icons.git.removed,
+                    modified = _G.LazyVim.config.icons.git.modified,
+                    untracked = _G.LazyVim.config.icons.git.untracked,
+                    ignored = _G.LazyVim.config.icons.git.ignored,
+                    unstaged = _G.LazyVim.config.icons.git.unstaged,
+                    staged = _G.LazyVim.config.icons.git.staged,
+                    conflict = _G.LazyVim.config.icons.git.conflict,
+                },
+            },
+        },
     },
 }

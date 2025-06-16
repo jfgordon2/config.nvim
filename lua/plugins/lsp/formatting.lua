@@ -24,6 +24,20 @@ return { -- Autoformat
                 vim.notify('Formatters to run: ' .. table.concat(formatter_names, ', '), vim.log.levels.INFO, { title = 'Conform' })
             end,
         },
+        {
+            '<leader>tf',
+            mode = '',
+            desc = '[T]oggle: [F]ormat on save',
+            function()
+                if vim.g.disable_autoformat then
+                    vim.g.disable_autoformat = false
+                    vim.notify('Autoformat enabled', vim.log.levels.INFO, { title = 'Conform' })
+                else
+                    vim.g.disable_autoformat = true
+                    vim.notify('Autoformat disabled', vim.log.levels.INFO, { title = 'Conform' })
+                end
+            end,
+        },
     },
     ---@module "conform"
     ---@type conform.setupOpts
@@ -31,14 +45,13 @@ return { -- Autoformat
         timeout_ms = 3000,
         async = false,
         quiet = false,
-        notify_on_error = false,
+        notify_on_error = true,
         format_on_save = function(bufnr)
             -- Disable "format_on_save lsp_fallback" for languages that don't
             -- have a well standardized coding style. You can add additional
             -- languages here or re-enable it for the disabled ones.
             local disable_filetypes = { c = true, cpp = true }
-            local lsp_format_opt
-            if disable_filetypes[vim.bo[bufnr].filetype] then
+            if vim.g.disable_autoformat or disable_filetypes[vim.bo[bufnr].filetype] then
                 return nil
             else
                 return {
@@ -80,6 +93,7 @@ return { -- Autoformat
             typescript = { 'biome' },
             typescriptreact = { 'biome' },
             vue = { 'biome' },
+            yaml = { 'yamlfmt' },
             -- ['*'] = { 'codespell' },
             ['_'] = { 'trim_whitespace' },
         },
@@ -97,7 +111,10 @@ return { -- Autoformat
                     '--write',
                     '--indent-style=space',
                     '--indent-width=2',
-                    '--quote-style=single',
+                    '--jsx-quote-style=single',
+                    '--javascript-formatter-quote-style=single',
+                    '--css-formatter-quote-style=single',
+                    '--graphql-formatter-quote-style=single',
                     '--semicolons=as-needed',
                     '--trailing-commas=none',
                     '--line-width=99',
@@ -110,6 +127,21 @@ return { -- Autoformat
             },
             shfmt = {
                 prepend_args = { '-i', '4', '-ci' },
+            },
+            yamlfmt = {
+                prepend_args = {
+                    '-formatter',
+                    table.concat({
+                        'drop_merge_tag=true',
+                        'eof_newline=true',
+                        'include_document_start=false',
+                        'indent=2',
+                        'pad_line_comments=2',
+                        'retain_line_breaks_single=true',
+                        'scan_folded_as_literal=true',
+                        'trim_trailing_whitespace=true',
+                    }, ','),
+                },
             },
         },
     },

@@ -5,6 +5,9 @@ return {
     'folke/snacks.nvim',
     priority = 1000,
     lazy = false,
+    dependencies = {
+        'rubiin/fortune.nvim',
+    },
     keys = {
         {
             '<leader>wd',
@@ -21,23 +24,11 @@ return {
             desc = '[W]orkspace: Open in Finder',
         },
         {
-            '<leader>ww',
+            '<leader>ti',
             function()
-                local on_exit = function(obj)
-                    if obj.code == 0 then
-                        vim.schedule(function()
-                            local normalize = string.gsub(obj.stdout, '"', '')
-                            vim.notify(normalize, vim.log.levels.INFO, { title = 'Davenport, IA' })
-                        end)
-                    else
-                        vim.schedule(function()
-                            vim.notify(vim.json.encode(obj))
-                        end)
-                    end
-                end
-                vim.system({ 'curl', '-s', 'https://wttr.in/52803?format="%c%20Actual:%20%t,%20Feels:%20%f%20Precip:%20%p"&u' }, { text = true }, on_exit)
+                Snacks.image.hover()
             end,
-            desc = '[W]orkspace: Show [W]eather',
+            desc = '[T]oggle [i]mage at cursor',
         },
         {
             '<leader>nn',
@@ -97,6 +88,7 @@ return {
         words = { enabled = true },
         quickfile = { enabled = true },
         statuscolumn = { enabled = true },
+        image = { enabled = true },
 
         -- Lazygit configuration
         lazygit = {
@@ -223,6 +215,26 @@ return {
                             indent = 3,
                         }, cmd)
                     end, cmds)
+                end,
+                function()
+                    local fortune = require 'fortune'
+                    local text = fortune.get_fortune() or {}
+                    local sections = {}
+
+                    for _, line in ipairs(text) do
+                        -- Skip empty lines or lines containing only quotes or whitespace
+                        if line:gsub('^%s*["\']?%s*["\']?%s*$', '') ~= '' then
+                            table.insert(sections, {
+                                title = _ == 1 and 'Fortune' or nil,
+                                text = { { line, align = 'center', hl = 'Comment' } },
+                                icon = _ == 1 and '󰮥 ' or nil,
+                                padding = 0,
+                                pane = 2,
+                            })
+                        end
+                    end
+
+                    return sections
                 end,
                 { section = 'startup' },
             },
