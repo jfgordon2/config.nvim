@@ -5,6 +5,8 @@ return {
         cmd = 'Copilot',
         build = ':Copilot auth',
         event = 'InsertEnter',
+        ---@module 'copilot.config'
+        ---@type CopilotConfig
         opts = {
             suggestion = {
                 enabled = false,

@@ -4,6 +4,7 @@ return {
     lazy = false,
     -- optional: provides snippets for the snippet source
     dependencies = {
+        { 'L3MON4D3/LuaSnip', version = 'v2.*' },
         'rafamadriz/friendly-snippets',
         'fang2hou/blink-copilot',
     },
@@ -24,6 +25,8 @@ return {
         keymap = { preset = 'default' },
 
         fuzzy = { implementation = 'prefer_rust_with_warning' },
+
+        snippets = { preset = 'luasnip' },
 
         appearance = {
             -- Sets the fallback highlight groups to nvim-cmp's highlight groups
@@ -105,6 +108,13 @@ return {
                             -- (optional) use highlights from mini.icons
                             highlight = function(ctx)
                                 local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                                -- if LSP source, check for color derived from documentation
+                                if ctx.item.source_name == 'LSP' then
+                                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
+                                    if color_item and color_item.abbr_hl_group then
+                                        hl = color_item.abbr_hl_group
+                                    end
+                                end
                                 return hl
                             end,
                         },

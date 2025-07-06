@@ -7,7 +7,6 @@ local M = {}
 vim.filetype.add {
     extension = {
         jsonc = 'jsonc',
-        feature = 'feature',
     },
 }
 
@@ -22,12 +21,14 @@ M.icons = {
         close_icon = ' ',
         left_trunc_marker = ' ',
         right_trunc_marker = ' ',
+        debug = ' ',
+        flag = ' ',
     },
     ft = {
-        octo = '',
-        dotenv = '',
-        dotkeep = '󰊢',
-        devcontainer = '',
+        octo = ' ',
+        dotenv = ' ',
+        dotkeep = '󰊢 ',
+        devcontainer = ' ',
     },
     dap = {
         Stopped = { '󰁕 ', 'DiagnosticWarn', 'DapStoppedLine' },
@@ -62,16 +63,19 @@ M.icons = {
     },
     git = {
         added = '+ ',
+        branch = ' ',
+        changedelete = '≃ ',
+        conflict = ' ',
+        diff = ' ',
+        ignored = ' ',
+        merge = '󰊢 ',
         modified = '∼ ',
         removed = '− ',
-        topdelete = '‾',
-        changedelete = '≃ ',
         renamed = '󰁕',
-        untracked = ' ',
-        ignored = ' ',
-        unstaged = ' ',
         staged = ' ',
-        conflict = ' ',
+        topdelete = '‾',
+        unstaged = ' ',
+        untracked = ' ',
     },
     mason = {
         package_installed = '✓',

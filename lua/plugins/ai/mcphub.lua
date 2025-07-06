@@ -8,7 +8,21 @@ return {
     config = function()
         require('mcphub').setup {
             config = vim.fn.expand '$HOME/.config/mcphub/servers.json',
-            auto_approve = true,
+            auto_approve = function(params)
+                if vim.g.codecompanion_auto_tool_mode == true then
+                    return true
+                end
+                if params.tool_name == 'read_file' then
+                    local path = params.arguments.path or ''
+                    if path:match('^' .. vim.fn.getcwd()) then
+                        return true
+                    end
+                end
+                if params.is_auto_approved_in_server then
+                    return true
+                end
+                return false
+            end,
         }
         local mcphub = require 'mcphub'
 

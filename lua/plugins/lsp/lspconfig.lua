@@ -31,6 +31,7 @@ return {
             'WhoIsSethDaniel/mason-tool-installer.nvim',
             { 'j-hui/fidget.nvim', opts = {} },
             'saghen/blink.cmp',
+            'rachartier/tiny-code-action.nvim',
         },
         opts = {
             servers = {
@@ -52,11 +53,73 @@ return {
                 },
                 codeqlls = {},
                 cssls = {},
+                cucumber_language_server = {
+                    enable = true,
+                    settings = {
+                        cucumber = {
+                            features = {
+                                'integration_tests/features/**/*.feature',
+                            },
+                            glue = {
+                                'integration_tests/steps/**/*.py',
+                            },
+                            parameterTypes = {
+                                { name = '{string}', regexp = '".*"' },
+                                { name = '{sentence}', regexp = '".*"' },
+                                { name = '{multilineText}', regexp = '((?:.+\\n)*.+)' },
+                                { name = '{string1}', regexp = '"[^"]*"' },
+                            },
+                        },
+                        features = {
+                            'integration_tests/features/**/*.feature',
+                        },
+                        glue = {
+                            'integration_tests/steps/**/*.py',
+                        },
+                        parameterTypes = {
+                            { name = '{string}', regexp = '".*"' },
+                            { name = '{sentence}', regexp = '".*"' },
+                            { name = '{multilineText}', regexp = '((?:.+\\n)*.+)' },
+                            { name = '{string1}', regexp = '"[^"]*"' },
+                        },
+                    },
+                },
                 docker_compose_language_service = {},
                 dockerls = {},
                 eslint = {},
                 gh_actions_ls = {},
                 gopls = {},
+                harper_ls = {
+                    enable = true,
+                    settings = {
+                        harper_ls = {
+                            markdown = {
+                                IgnoreLinkTitle = true,
+                            },
+                            linters = {
+                                AnA = false,
+                                CorrectNumberSyntax = false,
+                                LongSentences = false,
+                                Matcher = false,
+                                RepeatedWords = true,
+                                SentenceCapitalization = false,
+                                Spaces = false,
+                                SpellCheck = false,
+                                SpelledNumbers = false,
+                                ToDoHyphen = false,
+                                UnclosedQuotes = false,
+                                WrongQuotes = false,
+                            },
+                            codeActions = {
+                                ForceStable = false,
+                            },
+                            diagnosticSeverity = 'hint',
+                            isolateEnglish = false,
+                            dialect = 'American',
+                            maxFileLength = 120000,
+                        },
+                    },
+                },
                 html = {},
                 -- htmx = {},
                 jqls = {},
@@ -83,6 +146,7 @@ return {
                 tailwindcss = {},
                 taplo = {},
                 terraformls = {},
+                vale_ls = {},
                 yamlls = {
                     settings = {
                         yaml = {
@@ -203,9 +267,22 @@ return {
 
                     -- Execute a code action, usually your cursor needs to be on top of an error
                     -- or a suggestion from your LSP for this to activate.
-                    map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
-                    map('gra', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
-
+                    -- map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+                    -- map('gra', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+                    map('<leader>ca', function()
+                        require('fzf-lua.providers.lsp').code_actions {
+                            prompt = '❯ ',
+                            winopts = { height = 0.3, width = 0.5, title = 'Code Actions', preview = { wrap = true } },
+                            silent = true,
+                        }
+                    end, '[C]ode [A]ction', { 'n', 'x' })
+                    map('gra', function()
+                        require('fzf-lua.providers.lsp').code_actions {
+                            prompt = '❯ ',
+                            winopts = { height = 0.3, width = 0.5, title = 'Code Actions', preview = { wrap = true } },
+                            silent = true,
+                        }
+                    end, '[C]ode [A]ction', { 'n', 'x' })
                     -- WARN: This is not Goto Definition, this is Goto Declaration.
                     --  For example, in C this would take you to the header.
                     map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -296,10 +373,17 @@ return {
 
             local ensure_installed = vim.tbl_keys(opts.servers or {})
             vim.list_extend(ensure_installed, {
-                'stylua', -- Used to format Lua code
-                'yamlfmt',
-                'ts_ls',
+                'actionlint',
+                'jsonlint',
+                'shellcheck',
+                'shfmt',
                 'sonarlint-language-server',
+                'stylua', -- Used to format Lua code
+                'taplo',
+                'ts_ls',
+                'vale',
+                'yamlfmt',
+                'yamllint',
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

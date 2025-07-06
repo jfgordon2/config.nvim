@@ -101,3 +101,15 @@ vim.api.nvim_create_autocmd('BufWritePre', {
         vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
     end,
 })
+
+-- set tab config for specific filetypes
+vim.api.nvim_create_autocmd('FileType', {
+    group = vim.api.nvim_create_augroup('custom-filetype-tab-config', { clear = true }),
+    pattern = { 'cucumber' },
+    callback = function()
+        vim.opt_local.tabstop = 4
+        vim.opt_local.softtabstop = 4
+        vim.opt_local.shiftwidth = 4
+        vim.opt_local.expandtab = true
+    end,
+})

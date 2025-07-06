@@ -53,12 +53,12 @@ return {
 
                 -- Actions
                 -- visual mode
-                map('v', '<leader>hs', function()
+                map('v', '<leader>gs', function()
                     gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-                end, { desc = 'git [s]tage hunk' })
-                map('v', '<leader>hr', function()
+                end, { desc = '[G]it: [S]tage hunk' })
+                map('v', '<leader>gr', function()
                     gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-                end, { desc = 'git [r]eset hunk' })
+                end, { desc = '[G]it: [R]eset hunk' })
                 -- normal mode
                 map('n', '<leader>gs', gitsigns.stage_hunk, { desc = '[G]it: [S]tage hunk' })
                 map('n', '<leader>gr', gitsigns.reset_hunk, { desc = '[G]it: [R]eset hunk' })

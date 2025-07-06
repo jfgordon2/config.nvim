@@ -6,7 +6,6 @@ return {
     -- ft = "markdown" -- If you decide to lazy-load anyway
 
     dependencies = {
-        'nvim-treesitter/nvim-treesitter',
         'nvim-tree/nvim-web-devicons',
         'echasnovski/mini.icons',
     },
@@ -15,6 +14,9 @@ return {
             preview = {
                 enable = false,
                 icon_provider = 'mini',
+            },
+            experimental = {
+                check_rtp_message = false,
             },
         }
         vim.keymap.set('n', '<leader>tM', ':Markview toggle<CR>', { desc = '[T]oggle [M]arkdown Preview' })

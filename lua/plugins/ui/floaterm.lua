@@ -62,6 +62,25 @@ return {
                             volt_redraw(state.sidebuf, 'bufs')
                         end)
                     end, { buffer = buf, desc = '[F]loaterm: [R]ename terminal' })
+                    vim.keymap.set('n', '<leader>fg', function()
+                        local line = vim.fn.getline '.'
+                        local filepath, line_num, col = line:match '([^:]+):(%d+):(%d):'
+                        if not filepath then
+                            filepath, line_num = line:match '([^:]+):(%d+)'
+                        end
+                        if not filepath then
+                            filepath = vim.fn.expand '<cfile>'
+                        end
+                        if filepath then
+                            require('floaterm').toggle()
+                            vim.cmd('edit ' .. filepath)
+                            if line_num then
+                                line_num = tonumber(line_num)
+                                col = tonumber(col) or 0
+                                vim.api.nvim_win_set_cursor(0, { line_num, col })
+                            end
+                        end
+                    end, { desc = '[F]loaterm: [G]oto current file', buffer = buf })
                 end,
             },
             -- Default sets of terminals you'd like to open
