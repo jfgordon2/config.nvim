@@ -24,4 +24,13 @@ return {
             },
         },
     },
+    {
+        -- create login and logout commands
+        vim.api.nvim_create_user_command('CopilotSignin', function()
+            require('copilot.auth').signin()
+        end, { desc = 'Login to Copilot' }),
+        vim.api.nvim_create_user_command('CopilotSignout', function()
+            require('copilot.auth').signout()
+        end, { desc = 'Logout from Copilot' }),
+    },
 }

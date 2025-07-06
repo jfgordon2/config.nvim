@@ -17,7 +17,7 @@ return {
                 copilot = function()
                     return require('codecompanion.adapters').extend('copilot', {
                         schema = {
-                            model = { default = 'claude-3.5-sonnet' },
+                            model = { default = 'gpt-4.1' },
                         },
                     })
                 end,
@@ -77,6 +77,10 @@ return {
                                     'mcp',
                                     'read_file',
                                     'web_search',
+                                    'vectorcode_vectorise',
+                                    'vectorcode_query',
+                                    'vectorcode_ls',
+                                    'vectorcode_files_ls',
                                 },
                                 opts = {
                                     collapse_tools = true,
