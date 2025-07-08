@@ -13,6 +13,9 @@ return {
         vim.keymap.set('n', '<leader>ac', '<cmd>CodeCompanionChat<CR>', { desc = '[A]i: Chat' })
         vim.g.codecompanion_auto_tool_mode = true
         require('codecompanion').setup {
+            opts = {
+                log_level = 'WARN',
+            },
             adapters = {
                 copilot = function()
                     return require('codecompanion.adapters').extend('copilot', {
@@ -286,17 +289,18 @@ Each time you are going to create a file, use a single concise sentence inform t
                         tool_group = {
                             enabled = true,
                             extras = { 'file_search' },
-                            collapse = false,
+                            collapse = true,
                         },
                         tool_opts = {
                             ---@type VectorCode.CodeCompanion.ToolOpts
                             ['*'] = {},
                             ---@type VectorCode.CodeCompanion.LsToolOpts
-                            ls = {},
+                            ls = { include_in_toolbox = true },
                             ---@type VectorCode.CodeCompanion.VectoriseToolOpts
-                            vectorise = {},
+                            vectorise = { include_in_toolbox = true },
                             ---@type VectorCode.CodeCompanion.QueryToolOpts
                             query = {
+                                include_in_toolbox = true,
                                 max_num = { chunk = -1, document = -1 },
                                 default_num = { chunk = 50, document = 10 },
                                 include_stderr = false,

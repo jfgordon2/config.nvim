@@ -1,6 +1,7 @@
 return {
     {
         'nvzone/floaterm',
+        enabled = false,
         dependencies = 'nvzone/volt',
         cmd = 'FloatermToggle',
         opts = {
@@ -93,36 +94,37 @@ return {
         },
     },
     {
-        vim.keymap.set('n', '<leader>ff', function()
-            require('floaterm').toggle()
-        end, { desc = '[F]loaterm: Toggle' }),
-        vim.keymap.set('n', '<leader>fq', function()
-            local state = require 'floaterm.state'
-            local utils = require 'floaterm.utils'
-            if state.buf and vim.api.nvim_buf_is_valid(state.buf) then
-                vim.api.nvim_buf_delete(state.buf, { force = true })
-                state.buf = nil
-            end
-            if state.sidebuf and vim.api.nvim_buf_is_valid(state.sidebuf) then
-                vim.api.nvim_buf_delete(state.sidebuf, { force = true })
-                state.sidebuf = nil
-            end
-            if state.barbuf and vim.api.nvim_buf_is_valid(state.barbuf) then
-                vim.api.nvim_buf_delete(state.barbuf, { force = true })
-                state.barbuf = nil
-            end
-            if state.terminals and #state.terminals > 0 then
-                for _, term in ipairs(state.terminals) do
-                    if term.buf and vim.api.nvim_buf_is_valid(term.buf) then
-                        vim.api.nvim_buf_delete(term.buf, { force = true })
-                    end
-                end
-                state.terminals = nil
-            end
-            if state.termbuf_session_timer then
-                utils.close_timers()
-            end
-            state.volt_set = false
-        end, { desc = '[F]loaterm: [Q]uit' }),
+        -- vim.keymap.set('n', '<leader>ff', function()
+        --     require('floaterm').toggle()
+        -- end, { desc = '[F]loaterm: Toggle' }),
+        -- vim.keymap.set('n', '<leader>fq', function()
+        --     local state = require 'floaterm.state'
+        --     local utils = require 'floaterm.utils'
+        --     if state.buf and vim.api.nvim_buf_is_valid(state.buf) then
+        --         vim.api.nvim_buf_delete(state.buf, { force = true })
+        --         state.terminals = nil
+        --         state.buf = nil
+        --     end
+        --     if state.sidebuf and vim.api.nvim_buf_is_valid(state.sidebuf) then
+        --         vim.api.nvim_buf_delete(state.sidebuf, { force = true })
+        --         state.sidebuf = nil
+        --     end
+        --     if state.barbuf and vim.api.nvim_buf_is_valid(state.barbuf) then
+        --         vim.api.nvim_buf_delete(state.barbuf, { force = true })
+        --         state.barbuf = nil
+        --     end
+        --     if state.terminals and #state.terminals > 0 then
+        --         for _, term in ipairs(state.terminals) do
+        --             if term.buf and vim.api.nvim_buf_is_valid(term.buf) then
+        --                 vim.api.nvim_buf_delete(term.buf, { force = true })
+        --             end
+        --         end
+        --         state.terminals = nil
+        --     end
+        --     if state.termbuf_session_timer then
+        --         utils.close_timers()
+        --     end
+        --     state.volt_set = false
+        -- end, { desc = '[F]loaterm: [Q]uit' }),
     },
 }
