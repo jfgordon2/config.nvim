@@ -58,35 +58,35 @@ vim.keymap.set('n', '<leader>tt', function()
 end, { noremap = true, silent = true, desc = '[T]oggle [T]rouble Diagnostics' })
 
 -- Terminal management
-local job_id = 0
-vim.keymap.set('n', '<space>to', function()
-    vim.cmd.vnew()
-    vim.cmd.term()
-    vim.cmd.wincmd 'J'
-    vim.api.nvim_win_set_height(0, 15)
-    job_id = vim.bo.channel
-end, { desc = '[T]erminal: [O]pen' })
-
-local current_command = ''
-vim.keymap.set('n', '<space>te', function()
-    current_command = vim.fn.input 'Command: '
-    if job_id ~= 0 then
-        vim.fn.chansend(job_id, { current_command .. '\r\n' })
-    else
-        vim.cmd 'echo "Terminal is not open"'
-    end
-end, { desc = '[T]erminal: [E]xecute a command' })
-
-vim.keymap.set('n', '<space>tr', function()
-    if current_command == '' then
-        current_command = vim.fn.input 'Command: '
-    end
-    if job_id ~= 0 then
-        vim.fn.chansend(job_id, { current_command .. '\r\n' })
-    else
-        vim.cmd 'echo "Terminal is not open"'
-    end
-end, { desc = '[T]erminal: [R]epeat last command' })
+-- local job_id = 0
+-- vim.keymap.set('n', '<space>to', function()
+--     vim.cmd.vnew()
+--     vim.cmd.term()
+--     vim.cmd.wincmd 'J'
+--     vim.api.nvim_win_set_height(0, 15)
+--     job_id = vim.bo.channel
+-- end, { desc = '[T]erminal: [O]pen' })
+--
+-- local current_command = ''
+-- vim.keymap.set('n', '<space>te', function()
+--     current_command = vim.fn.input 'Command: '
+--     if job_id ~= 0 then
+--         vim.fn.chansend(job_id, { current_command .. '\r\n' })
+--     else
+--         vim.cmd 'echo "Terminal is not open"'
+--     end
+-- end, { desc = '[T]erminal: [E]xecute a command' })
+--
+-- vim.keymap.set('n', '<space>tr', function()
+--     if current_command == '' then
+--         current_command = vim.fn.input 'Command: '
+--     end
+--     if job_id ~= 0 then
+--         vim.fn.chansend(job_id, { current_command .. '\r\n' })
+--     else
+--         vim.cmd 'echo "Terminal is not open"'
+--     end
+-- end, { desc = '[T]erminal: [R]epeat last command' })
 
 -- Format highlighted JSON text in place or whole file
 vim.keymap.set('v', '<leader>cj', function()

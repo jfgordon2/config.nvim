@@ -53,7 +53,7 @@ return {
             { '<leader>q', group = 'Session Management' },
             { '<leader>r', group = '[R]ename' },
             { '<leader>s', group = '[S]earch', mode = { 'n', 'v', 'x' } },
-            { '<leader>t', group = '[T]oggle/[T]erminal', mode = { 'n', 'v', 'x' } },
+            { '<leader>t', group = '[T]oggle', mode = { 'n', 'v', 'x' } },
             { '<leader>v', group = '[V]sterm' },
             { '<leader>w', group = '[W]orkspace' },
             { '<leader>x', group = 'E[x]amine Trouble' },
