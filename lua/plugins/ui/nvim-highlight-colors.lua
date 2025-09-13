@@ -3,7 +3,7 @@ return {
         'brenoprata10/nvim-highlight-colors',
         opts = {
             render = 'virtual',
-            virtual_symbol = _G.LazyVim.config.icons.misc.circle,
+            virtual_symbol = _G.LazyVim.config.icons.misc.square,
             virtual_symbol_prefix = ' ',
             virtual_symbol_suffix = '',
             ---Set virtual symbol position()

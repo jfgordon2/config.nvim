@@ -32,6 +32,18 @@ npm install -g @tailwindcss/language-server
 npm install -g @vtsls/language-server
 npm install -g vscode-langservers-extracted
 
+brew install --cask font-commit-mono
+brew install --cask font-fira-code-nerd-font
+brew install --cask font-hack-nerd-font
+brew install --cask font-jetbrains-mono
+brew install --cask font-jetbrains-mono-nerd-font
+brew install --cask font-monaspace
+brew install --cask font-monaspace-nerd-font
+brew install --cask font-monaspice-nerd-font
+brew install --cask font-recursive
+brew install --cask font-recursive-code
+brew install --cask font-symbols-only-nerd-font
+
 # npm install -g @ansible/ansible-language-server
 # npm install -g awk-language-server
 # npm install -g bash-language-server

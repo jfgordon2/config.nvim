@@ -23,6 +23,7 @@ M.icons = {
         right_trunc_marker = ' ',
         debug = ' ',
         flag = ' ',
+        square = '󱓻 ',
     },
     ft = {
         octo = ' ',

@@ -60,6 +60,9 @@ return {
             { 'gs', group = '[S]urround' },
             { 'g', group = '[G]o to' },
             { 'gr', group = 'LSP' },
+            { 'z', group = 'Fold & more' },
+            { '[', group = 'Previous' },
+            { ']', group = 'Next' },
         },
     },
 }

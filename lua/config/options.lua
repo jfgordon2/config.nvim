@@ -97,3 +97,6 @@ vim.o.winblend = 0
 
 -- Transparency for popup menu
 vim.o.pumblend = 0
+
+-- Start editing any new files with all folds open
+vim.o.foldlevelstart = 99

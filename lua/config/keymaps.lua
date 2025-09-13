@@ -142,3 +142,8 @@ vim.keymap.set('n', '<leader>ww', function()
     end
     vim.system({ 'curl', '-s', 'https://wttr.in/52803?format="%c%20Actual:%20%t,%20Feels:%20%f%20Precip:%20%p"&u' }, { text = true }, on_exit)
 end, { desc = '[W]orkspace: Show [W]eather' })
+
+-- Copy filepath to clipboard
+vim.keymap.set('n', '<leader>cp', function()
+    vim.fn.setreg('+', vim.fn.expand '%')
+end, { desc = '[C]ode: Yank file [p]ath to clipboard' })

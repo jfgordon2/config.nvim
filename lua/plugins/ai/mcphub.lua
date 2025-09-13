@@ -1,12 +1,14 @@
 return {
     'ravitemer/mcphub.nvim',
+    enabled = true,
     dependencies = {
         'nvim-lua/plenary.nvim',
         'nvim-treesitter/nvim-treesitter', -- Added for code analysis
     },
-    build = 'npm install -g mcp-hub@latest',
+    build = 'bundled_build.lua',
     config = function()
         require('mcphub').setup {
+            use_bundled_binary = true,
             config = vim.fn.expand '$HOME/.config/mcphub/servers.json',
             auto_approve = function(params)
                 if vim.g.codecompanion_auto_tool_mode == true then
