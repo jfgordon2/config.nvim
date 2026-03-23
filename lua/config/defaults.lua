@@ -7,6 +7,7 @@ local M = {}
 vim.filetype.add {
     extension = {
         jsonc = 'jsonc',
+        rule = 'rule',
     },
 }
 

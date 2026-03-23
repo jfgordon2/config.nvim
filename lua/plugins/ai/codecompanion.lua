@@ -558,6 +558,7 @@ Now go forth and critique some developer's code with the precision of a surgical
 
 return {
     'olimorris/codecompanion.nvim',
+    enabled = false,
     dependencies = {
         { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
         { 'nvim-lua/plenary.nvim' },
@@ -575,13 +576,13 @@ return {
             },
             adapters = {
                 http = {
-                    copilot = function()
-                        return require('codecompanion.adapters').extend('copilot', {
-                            schema = {
-                                model = { default = 'gpt-4.1' },
-                            },
-                        })
-                    end,
+                    -- copilot = function()
+                    --     return require('codecompanion.adapters').extend('copilot', {
+                    --         schema = {
+                    --             model = { default = 'gpt-4.1' },
+                    --         },
+                    --     })
+                    -- end,
                     openrouter_gpt_oss_20b = function()
                         return require('codecompanion.adapters').extend('openai_compatible', {
                             name = 'gpt-oss-20b',
@@ -592,6 +593,15 @@ return {
                             },
                             schema = {
                                 model = { default = 'openai/gpt-oss-20b:free' },
+                            },
+                        })
+                    end,
+                },
+                acp = {
+                    codex = function()
+                        return require('codecompanion.adapters').extend('codex', {
+                            defaults = {
+                                auth_method = 'chatgpt',
                             },
                         })
                     end,
@@ -612,7 +622,7 @@ return {
                     },
                 },
                 chat = {
-                    adapter = 'copilot',
+                    adapter = 'codex',
                     keymaps = {
                         send = {
                             modes = { n = '<CR>', i = '<C-s>' },
@@ -790,9 +800,12 @@ return {
                         auto_save = true,
                         expiration_days = 0,
                         picker = 'fzf-lua',
-                        auto_generate_title = 'true',
+                        auto_generate_title = false,
                         continue_last_chat = true,
                         delete_on_clearing_chat = true,
+                        title_generation_opts = {
+                            adapter = 'copilot',
+                        },
                     },
                 },
                 vectorcode = {

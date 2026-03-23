@@ -387,10 +387,12 @@ return {
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-            local lspconfig = require 'lspconfig'
+            -- local lspconfig = require 'lspconfig'
             for server, config in pairs(opts.servers) do
                 config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
-                lspconfig[server].setup(config)
+                -- lspconfig[server].setup(config)
+                vim.lsp.enable(server)
+                vim.lsp.config(server, config)
             end
         end,
     },

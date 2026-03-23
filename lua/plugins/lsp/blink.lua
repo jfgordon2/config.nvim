@@ -22,7 +22,17 @@ return {
         -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
         -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
         -- See the full "keymap" documentation for information on defining your own keymap.
-        keymap = { preset = 'default' },
+        keymap = {
+            preset = 'default',
+            ['<Tab>'] = {
+                'snippet_forward',
+                function() -- sidekick next edit suggestion
+                    return require('sidekick').nes_jump_or_apply()
+                end,
+                'accept',
+                'fallback',
+            },
+        },
 
         fuzzy = { implementation = 'prefer_rust_with_warning' },
 
@@ -74,7 +84,14 @@ return {
         -- Default list of enabled providers defined so that you can extend it
         -- elsewhere in your config, without redefining it, due to `opts_extend`
         sources = {
-            default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'codecompanion' },
+            default = {
+                'lsp',
+                'path',
+                'snippets',
+                'buffer',
+                'copilot',
+                -- 'codecompanion'
+            },
             providers = {
                 copilot = {
                     name = 'copilot',
