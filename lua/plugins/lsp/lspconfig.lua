@@ -145,7 +145,7 @@ return {
                 sqlls = {},
                 tailwindcss = {},
                 taplo = {},
-                terraformls = {},
+                -- terraformls = {},
                 vale_ls = {},
                 yamlls = {
                     settings = {

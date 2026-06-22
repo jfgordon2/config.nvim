@@ -7,6 +7,7 @@ local function patch_sidekick_mux()
         zellij = 'sidekick.cli.session.zellij',
     }
 
+    ---@diagnostic disable-next-line: duplicate-set-field
     session.setup = function()
         if session.did_setup then
             return
@@ -33,7 +34,7 @@ return {
         opts = {
             cli = {
                 mux = {
-                    backend = 'zellij',
+                    backend = 'tmux',
                     enabled = true,
                     create = 'terminal',
                     split = {

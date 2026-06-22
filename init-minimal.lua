@@ -1,5 +1,54 @@
 -- Minimal working configuration for testing
 
+local minimal_parsers = { 'lua', 'vim', 'vimdoc', 'query' }
+
+local function enable_minimal_treesitter(buf)
+    if not vim.api.nvim_buf_is_valid(buf) or vim.bo[buf].buftype ~= '' then
+        return
+    end
+
+    local ok = pcall(vim.treesitter.start, buf)
+    if ok then
+        vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end
+end
+
+local function install_minimal_parsers(nvim_treesitter)
+    local installed = {}
+    for _, parser in ipairs(nvim_treesitter.get_installed 'parsers') do
+        installed[parser] = true
+    end
+
+    local missing = {}
+    for _, parser in ipairs(minimal_parsers) do
+        if not installed[parser] then
+            table.insert(missing, parser)
+        end
+    end
+
+    if #missing > 0 then
+        nvim_treesitter.install(missing)
+    end
+end
+
+local function setup_minimal_treesitter()
+    local nvim_treesitter = require 'nvim-treesitter'
+    nvim_treesitter.setup {
+        install_dir = vim.fn.stdpath 'data' .. '/site',
+    }
+
+    install_minimal_parsers(nvim_treesitter)
+
+    local group = vim.api.nvim_create_augroup('minimal_treesitter', { clear = true })
+    vim.api.nvim_create_autocmd('FileType', {
+        group = group,
+        pattern = '*',
+        callback = function(event)
+            enable_minimal_treesitter(event.buf)
+        end,
+    })
+end
+
 -- Set leaders
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -52,13 +101,10 @@ require('lazy').setup({
     -- Treesitter
     {
         'nvim-treesitter/nvim-treesitter',
+        branch = 'main',
+        lazy = false,
         build = ':TSUpdate',
-        config = function()
-            require('nvim-treesitter.configs').setup {
-                ensure_installed = { 'lua', 'vim', 'vimdoc', 'query' },
-                highlight = { enable = true },
-            }
-        end,
+        config = setup_minimal_treesitter,
     },
 
     -- Telescope
