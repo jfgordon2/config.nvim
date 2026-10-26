@@ -1,6 +1,8 @@
 -- Which-key - Show pending keybinds
 -- Helpful plugin to discover and learn keybindings
 
+local icons = require 'config.icons'
+
 return function()
     local opts = {
         delay = 0,
@@ -43,20 +45,20 @@ return function()
             { '<leader>b', group = 'Buffers' },
             { '<leader>B', group = 'Debug' },
             { '<leader>c', group = 'Code', mode = { 'n', 'x' } },
-            { '<leader>d', group = 'Document' },
-            { '<leader>e', group = 'Explorer' },
+            { '<leader>d', group = 'Document', icon = { icon = vim.trim(icons.kinds.File), color = 'blue' } },
+            { '<leader>e', group = 'Explorer', icon = { icon = vim.trim(icons.kinds.Folder), color = 'orange' } },
             { '<leader>g', group = 'Git', mode = { 'n', 'x' } },
-            { '<leader>h', group = 'Help' },
-            { '<leader>m', group = 'Markdown' },
+            { '<leader>h', group = 'Help', icon = { icon = icons.misc.help, color = 'cyan' } },
+            { '<leader>m', group = 'Markdown', icon = { cat = 'filetype', name = 'markdown' } },
             { '<leader>n', group = 'Notifications' },
             { '<leader>N', group = 'Tests' },
             { '<leader>q', group = 'Sessions' },
             { '<leader>r', group = 'Refactor' },
             { '<leader>s', group = 'Search', mode = { 'n', 'x' } },
             { '<leader>t', group = 'Toggles', mode = { 'n', 'x' } },
-            { '<leader>u', group = 'Utilities' },
+            { '<leader>u', group = 'Utilities', icon = { icon = icons.misc.tools, color = 'yellow' } },
             { '<leader>v', group = 'Terminals' },
-            { '<leader>w', group = 'Workspace' },
+            { '<leader>w', group = 'Workspace', icon = { icon = icons.misc.workspace, color = 'purple' } },
             { '<leader>x', group = 'Diagnostics and lists' },
             { 'gs', group = 'Surround', mode = { 'n', 'x' } },
             { 'g', group = 'Go to' },
@@ -77,7 +79,9 @@ return function()
             end
             if vim.bo[event.buf].filetype == 'ipynb' or vim.b[event.buf].ipynb_is_edit_buffer then
                 -- Register late cell buffers immediately, after the startup queue.
-                require('which-key.config').add { { '<leader>k', group = 'Notebook', buffer = event.buf } }
+                require('which-key.config').add {
+                    { '<leader>k', group = 'Notebook', buffer = event.buf, icon = { icon = icons.misc.notebook, color = 'green' } },
+                }
                 vim.b[event.buf].which_key_notebook_group = true
             end
         end,

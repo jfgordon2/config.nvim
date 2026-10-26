@@ -12,6 +12,10 @@ return {
         debug = ' ',
         flag = ' ',
         square = '󱓻 ',
+        help = '󰋖',
+        tools = '',
+        workspace = '',
+        notebook = '',
     },
     ft = {
         octo = ' ',
