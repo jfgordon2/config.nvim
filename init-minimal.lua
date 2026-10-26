@@ -1,125 +1,27 @@
--- Minimal working configuration for testing
-
-local minimal_parsers = { 'lua', 'vim', 'vimdoc', 'query' }
-
-local function enable_minimal_treesitter(buf)
-    if not vim.api.nvim_buf_is_valid(buf) or vim.bo[buf].buftype ~= '' then
-        return
-    end
-
-    local ok = pcall(vim.treesitter.start, buf)
-    if ok then
-        vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-    end
-end
-
-local function install_minimal_parsers(nvim_treesitter)
-    local installed = {}
-    for _, parser in ipairs(nvim_treesitter.get_installed 'parsers') do
-        installed[parser] = true
-    end
-
-    local missing = {}
-    for _, parser in ipairs(minimal_parsers) do
-        if not installed[parser] then
-            table.insert(missing, parser)
-        end
-    end
-
-    if #missing > 0 then
-        nvim_treesitter.install(missing)
-    end
-end
-
-local function setup_minimal_treesitter()
-    local nvim_treesitter = require 'nvim-treesitter'
-    nvim_treesitter.setup {
-        install_dir = vim.fn.stdpath 'data' .. '/site',
-    }
-
-    install_minimal_parsers(nvim_treesitter)
-
-    local group = vim.api.nvim_create_augroup('minimal_treesitter', { clear = true })
-    vim.api.nvim_create_autocmd('FileType', {
-        group = group,
-        pattern = '*',
-        callback = function(event)
-            enable_minimal_treesitter(event.buf)
-        end,
-    })
-end
-
--- Set leaders
+-- Minimal native startup for diagnosing plugin setup independently.
+assert(vim.fn.has 'nvim-0.12' == 1, 'Neovim 0.12+ required')
+vim.loader.enable()
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
-
--- Load vim options
 require 'config.options'
-
--- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-    vim.fn.system {
-        'git',
-        'clone',
-        '--filter=blob:none',
-        'https://github.com/folke/lazy.nvim.git',
-        '--branch=main',
-        lazypath,
-    }
-end
----@type vim.Option
-local rtp = vim.opt.rtp
-rtp:prepend(lazypath)
-
--- Setup lazy.nvim with explicit plugin list
-require('lazy').setup({
-    -- Colorscheme
-    {
-        'folke/tokyonight.nvim',
-        priority = 1000,
-        config = function()
-            require('tokyonight').load()
-        end,
-    },
-
-    -- Dashboard and utilities
-    {
-        'folke/snacks.nvim',
-        priority = 1000,
-        lazy = false,
-        config = function()
-            require('snacks').setup {
-                dashboard = { enabled = true },
-                notifier = { enabled = true },
-                quickfile = { enabled = true },
-            }
-        end,
-    },
-
-    -- Treesitter
-    {
-        'nvim-treesitter/nvim-treesitter',
-        branch = 'main',
-        lazy = false,
-        build = ':TSUpdate',
-        config = setup_minimal_treesitter,
-    },
-
-    -- Telescope
-    {
-        'nvim-telescope/telescope.nvim',
-        tag = '0.1.6',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        keys = {
-            { '<leader>sf', '<cmd>Telescope find_files<cr>', desc = 'Find files' },
-            { '<leader>sg', '<cmd>Telescope live_grep<cr>', desc = 'Live grep' },
-        },
-    },
-}, {
-    install = { colorscheme = { 'tokyonight', 'habamax' } },
-    checker = { enabled = true },
-})
-
-print '✅ Minimal config loaded successfully!'
+require('config.pack_build').setup()
+local wanted = {
+    ['tokyonight.nvim'] = true,
+    ['nvim-treesitter'] = true,
+    ['markview.nvim'] = true,
+    ['mini.nvim'] = true,
+    ['nvim-web-devicons'] = true,
+    ['plenary.nvim'] = true,
+    ['telescope.nvim'] = true,
+    ['telescope-fzf-native.nvim'] = true,
+    ['telescope-ui-select.nvim'] = true,
+}
+vim.pack.add(vim.tbl_filter(function(spec)
+    return wanted[spec.src:match '/([^/]+)%.git$']
+end, require 'config.packages'))
+require 'plugins.ui.colorscheme'()
+require('mini.icons').setup()
+require 'plugins.ui.markview'()
+require 'plugins.editor.treesitter'()
+require 'plugins.tools.telescope'()

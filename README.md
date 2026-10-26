@@ -1,135 +1,93 @@
-# Introduction
+# Native Neovim test configuration
 
-Neovim config based on kickstart.nvim and LazyVim.
-
-## Installation
-
-### Install Neovim
-
-```bash
-brew install neovim --HEAD
-```
-
-### Install External Dependencies
-
-External Requirements:
-
-- Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`)
-- [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
-- Clipboard tool (xclip/xsel/win32yank or other depending on the platform)
-- A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
-  - if you have it set `vim.g.have_nerd_font` in `init.lua` to true
-- Language Setup:
-  - If you want to write Typescript, you need `npm`
-  - If you want to write Golang, you will need `go`
-  - etc.
-
-### Install Kickstart
-
-Neovim's configurations are located under the following paths, depending on your OS:
-
-| OS | PATH |
-| :- | :--- |
-| Linux, MacOS | `$XDG_CONFIG_HOME/nvim`, `~/.config/nvim` |
-| Windows (cmd)| `%localappdata%\nvim\` |
-| Windows (powershell)| `$env:LOCALAPPDATA\nvim\` |
-
-#### Recommended Step
-
-[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repo
-so that you have your own copy that you can modify, then install by cloning the
-fork to your machine using one of the commands below, depending on your OS.
-
-> **NOTE**
-> Your fork's URL will be something like this:
-> `https://github.com/<your_github_username>/kickstart.nvim.git`
-
-You likely want to remove `lazy-lock.json` from your fork's `.gitignore` file
-too - it's ignored in the kickstart repo to make maintenance easier, but it's
-[recommended to track it in version control](https://lazy.folke.io/usage/lockfile).
-
-#### Clone kickstart.nvim
->
-> **NOTE**
-> If following the recommended step above (i.e., forking the repo), replace
-> `nvim-lua` with `<your_github_username>` in the commands below
-
-<details><summary> Linux and Mac </summary>
+This is an independent migration of your existing configuration to Neovim 0.12+
+`vim.pack`. Launch it with:
 
 ```sh
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+NVIM_APPNAME=nvim-pack-test nvim
 ```
 
-</details>
+Normal `nvim` continues to use your original Lazy configuration. `NVIM_APPNAME`
+also gives this configuration separate plugins, Mason tools, parsers, sessions,
+undo, shada, cache, and logs. Keep the environment variable when using `-u`:
 
-<details><summary> Windows </summary>
-
-If you're using `cmd.exe`:
-
-```shell
-git clone https://github.com/nvim-lua/kickstart.nvim.git "%localappdata%\nvim"
+```sh
+NVIM_APPNAME=nvim-pack-test nvim -u ~/.config/nvim-pack-test/init-minimal.lua
+NVIM_APPNAME=nvim-pack-test nvim -u ~/.config/nvim-pack-test/init-debug.lua
 ```
 
-If you're using `powershell.exe`
+## Layout
 
-```shell
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${env:LOCALAPPDATA}\nvim"
-```
+- `lua/config/packages.lua`: flat native repository/version inventory, including dependencies.
+- `lua/config/pack_build.lua`: install/update build hooks, registered before any native package operation.
+- `lua/config/pack.lua`: explicit setup order and convenience commands.
+- `lua/config/tools.lua`: shared language-server, linter, formatter, and Mason package selections.
+- `lua/config/mason.lua`: the one tool installer, including debug adapters.
+- `lua/config/icons.lua`: icon definitions imported locally by consumers.
+- `lua/config/buffers.lua`: shared buffer actions.
+- `lua/data/fortunes.lua`: fortune content kept separate from plugin setup.
+- `lua/plugins/`: existing plugin settings and mappings, expressed as plain setup functions.
+- `nvim-pack-lock.json`: native lockfile, generated from the original plugin revisions.
 
-</details>
+There is no Lazy, compatibility layer, manager wrapper, or custom lazy loader.
+Plugin code is made available at startup; setup happens before the first file
+opens so formatting, linting, sessions, and LSP work on the first event. The
+Python virtualenv mapping remains buffer-local. Floaterm remains disabled.
 
-### Post Installation
+## Managing plugins
 
-Start Neovim
+- `:PackStatus`: native offline plugin review; does not fetch.
+- `:PackUpdate`: fetch and review updates. Use `:write` to apply or `:quit` to cancel.
+- `:PackRestore`: review restoring the current native lockfile's revisions, offline.
+- `:PackBuild LuaSnip`, `:PackBuild telescope-fzf-native.nvim`, or `:PackBuild nvim-treesitter`: rerun a build.
+- Remove an entry from `packages.lua`, restart, then call `:lua vim.pack.del({'plugin-name'})` to delete it.
 
-```shell
-nvim
-```
+After updates, restart Neovim. Track `nvim-pack-lock.json` along with the config.
+To roll back, restore an earlier lockfile, restart, and run `:PackRestore`.
 
-That's it! Lazy will install all the plugins you have. Use `:Lazy` to view
-the current plugin status. Hit `q` to close the window.
+Build hooks compile Telescope's native sorter and LuaSnip's jsregexp library,
+and update installed Tree-sitter parsers. Copilot authentication is explicit:
+`:CopilotSignin` / `:CopilotSignout`. The separate app may require signing in
+again. Existing authentication files are not copied by this migration.
 
-#### Read The Friendly Documentation
+The dashboard's Plugins action opens the native review buffer. Its Lazy-specific
+startup statistics were removed. There is no automatic plugin update checker.
 
-Read through the `init.lua` file in your configuration folder for more
-information about extending and exploring Neovim. That also includes
-examples of adding popularly requested plugins.
+Two existing LSP configuration problems were corrected in this copy: Harper's
+settings key is `harper-ls`, and CodeQL has an explicit native server definition.
 
-> [!NOTE]
-> For more information about a particular plugin check its repository's documentation.
+`<leader>cj` formats JSON in the whole buffer in Normal mode, or only the active
+characterwise/linewise selection in Visual mode. It uses native `vim.json` APIs
+with the buffer's indentation settings, preserves surrounding text and indentation,
+and leaves the buffer unchanged on invalid JSON. Input must be one complete JSON
+value. Key sorting is disabled, though native decoding and re-encoding may still
+change object key order.
 
-### Getting Started
+`<leader>cf` and format-on-save also use this native formatter for `json` buffers
+through Conform. JSONC uses Biome to preserve comments. `<leader>cF` shows the
+formatter selected for the current buffer.
 
-[The Only Video You Need to Get Started with Neovim](https://youtu.be/m8C0Cq9Uv9o)
+`<leader>c4` converts the current buffer's leading indentation to spaces (four per
+tab stop); `<leader>ct` converts it to tabs with a display width of four. Both set
+buffer-local indentation options for subsequent edits. Formatters still apply
+their configured indentation style when formatting or saving.
 
-### FAQ
+## Testing
 
-- What should I do if I already have a pre-existing Neovim configuration?
-  - You should back it up and then delete all associated files.
-  - This includes your existing init.lua and the Neovim files in `~/.local`
-    which can be deleted with `rm -rf ~/.local/share/nvim/`
-- Can I keep my existing configuration in parallel to kickstart?
-  - Yes! You can use [NVIM_APPNAME](https://neovim.io/doc/user/starting.html#%24NVIM_APPNAME)`=nvim-NAME`
-    to maintain multiple configurations. For example, you can install the kickstart
-    configuration in `~/.config/nvim-kickstart` and create an alias:
+The migration is checked with real startup/file-open runs for Lua, Python, TypeScript, and Rust; original keymaps; first-save Lua formatting; LSP attachment;
+native completion/snippet/sorter libraries; and fresh-install/lockfile-reinstall
+build hooks. `tests/smoke.lua` is the integration check entry point, driven by
+an isolated test runner during the migration. Run it with
+`python3 ~/.config/nvim-pack-test/tests/run.py`. The checks use the current plugin inventory and native lockfile.
+Interactive AI authentication and
+actual project debug/test sessions still need a manual check.
 
-    ```shell
-    alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
-    ```
+Plugins and existing tools were seeded as independent copies, not symlinks or
+hard links to the default installation. The inventory now contains 66 plugins after removing standalone mini.icons,
+indent-blankline, and Neoscroll. The existing mini.nvim provides icons; Snacks
+provides indentation and scrolling. Remaining plugin revisions are preserved.
 
-    When you run Neovim using `nvim-kickstart` alias it will use the alternative
-    config directory and the matching local directory
-    `~/.local/share/nvim-kickstart`. You can apply this approach to any Neovim
-    distribution that you would like to try out.
-- What if I want to "uninstall" this configuration:
-  - See [lazy.nvim uninstall](https://lazy.folke.io/usage#-uninstalling) information
-- Why is the kickstart `init.lua` a single file? Wouldn't it make sense to split it into multiple files?
-  - The main purpose of kickstart is to serve as a teaching tool and a reference
-    configuration that someone can easily use to `git clone` as a basis for their own.
-    As you progress in learning Neovim and Lua, you might consider splitting `init.lua`
-    into smaller parts. A fork of kickstart that does this while maintaining the
-    same functionality is available here:
-    - [kickstart-modular.nvim](https://github.com/dam9000/kickstart-modular.nvim)
-  - Discussions on this topic can be found here:
-    - [Restructure the configuration](https://github.com/nvim-lua/kickstart.nvim/issues/218)
-    - [Reorganize init.lua into a multi-file setup](https://github.com/nvim-lua/kickstart.nvim/pull/473)
+Rustaceanvim owns Rust LSP and Cargo integration. Ruff, Biome, and Vale use LSP
+for diagnostics; Conform owns formatting. Vale starts only in projects with
+`.vale.ini`. External tools marked `false` in the shared tool definitions are
+provided by system toolchains or are optional Python formatting fallbacks.

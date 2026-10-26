@@ -1,6 +1,5 @@
-return {
-    'jfgordon2/vsterm.nvim',
-    opts = {
+return function()
+    local opts = {
         height = 0.27,
         default_name = 'Terminal %d',
         shell = vim.o.shell,
@@ -13,5 +12,6 @@ return {
             kill = '<leader>vk',
             rename = '<leader>vr',
         },
-    },
-}
+    }
+    require('vsterm').setup(opts)
+end

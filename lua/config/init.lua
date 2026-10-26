@@ -1,30 +1,14 @@
--- Main configuration entry point
--- This file orchestrates the loading of all configuration modules
-
--- Initialize LazyVim utilities and config defaults first
-_G.LazyVim = require 'config.utils'
-
--- Load vim options early
+assert(vim.fn.has 'nvim-0.12' == 1, 'This configuration requires Neovim 0.12 or newer')
+vim.loader.enable()
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+vim.g.have_nerd_font = true
+-- Override an inherited MASON path so test tools remain isolated.
+vim.env.MASON = vim.fn.stdpath 'data' .. '/mason'
 require 'config.options'
-
--- Setup lazy.nvim and load plugins
-require 'config.lazy'
-
--- Setup autocmds and keymaps after plugins load
-vim.api.nvim_create_autocmd('User', {
-    pattern = 'VeryLazy',
-    callback = function()
-        require 'config.autocmds'
-        require 'config.keymaps'
-
-        -- Load colorscheme after all plugins are loaded
-        vim.schedule(function()
-            local ok, tokyonight = pcall(require, 'tokyonight')
-            if ok then
-                tokyonight.load()
-            else
-                vim.cmd.colorscheme 'habamax'
-            end
-        end)
-    end,
-})
+for _, plugin in ipairs { 'gzip', 'netrwPlugin', 'spellfile_plugin', 'tarPlugin', 'tohtml', 'tutor', 'zipPlugin' } do
+    vim.g['loaded_' .. plugin] = 1
+end
+require 'config.pack'
+require 'config.autocmds'
+require 'config.keymaps'

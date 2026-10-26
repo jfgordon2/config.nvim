@@ -1,48 +1,12 @@
 -- Tokyo Night colorscheme
 -- Beautiful dark theme
 
-return {
-    'folke/tokyonight.nvim',
-    priority = 1000,
-    lazy = false,
-    config = function()
-        local tokyonight = require 'tokyonight'
-        ---@type tokyonight.Config
-        local opts = {
-            transparent = false,
-            -- borderless telescope
-            -- on_highlights = function(hl, c)
-            --     local prompt = '#2d3149'
-            --     hl.TelescopeNormal = {
-            --         bg = c.bg_dark,
-            --         fg = c.fg_dark,
-            --     }
-            --     hl.TelescopeBorder = {
-            --         bg = c.bg_dark,
-            --         fg = c.bg_dark,
-            --     }
-            --     hl.TelescopePromptNormal = {
-            --         bg = prompt,
-            --     }
-            --     hl.TelescopePromptBorder = {
-            --         bg = prompt,
-            --         fg = prompt,
-            --     }
-            --     hl.TelescopePromptTitle = {
-            --         bg = prompt,
-            --         fg = prompt,
-            --     }
-            --     hl.TelescopePreviewTitle = {
-            --         bg = c.bg_dark,
-            --         fg = c.bg_dark,
-            --     }
-            --     hl.TelescopeResultsTitle = {
-            --         bg = c.bg_dark,
-            --         fg = c.bg_dark,
-            --     }
-            -- end,
-        }
-        tokyonight.setup(opts)
-        tokyonight.load()
-    end,
-}
+return function()
+    local tokyonight = require 'tokyonight'
+    ---@type tokyonight.Config
+    local opts = {
+        transparent = false,
+    }
+    tokyonight.setup(opts)
+    tokyonight.load()
+end

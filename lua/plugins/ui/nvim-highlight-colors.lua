@@ -1,63 +1,56 @@
-return {
-    {
-        'brenoprata10/nvim-highlight-colors',
-        opts = {
-            render = 'virtual',
-            virtual_symbol = _G.LazyVim.config.icons.misc.square,
-            virtual_symbol_prefix = ' ',
-            virtual_symbol_suffix = '',
-            ---Set virtual symbol position()
-            ---@usage 'inline'|'eol'|'eow'
-            ---inline mimics VS Code style
-            ---eol stands for `end of column` - Recommended to set `virtual_symbol_suffix = ''` when used.
-            ---eow stands for `end of word` - Recommended to set `virtual_symbol_prefix = ' ' and virtual_symbol_suffix = ''` when used.
-            virtual_symbol_position = 'inline',
+local icons = require 'config.icons'
 
-            ---Highlight hex colors, e.g. '#FFFFFF'
-            enable_hex = true,
+return function()
+    local opts = {
+        render = 'virtual',
+        virtual_symbol = icons.misc.square,
+        virtual_symbol_prefix = ' ',
+        virtual_symbol_suffix = '',
+        virtual_symbol_position = 'inline',
 
-            ---Highlight short hex colors e.g. '#fff'
-            enable_short_hex = true,
+        ---Highlight hex colors, e.g. '#FFFFFF'
+        enable_hex = true,
 
-            ---Highlight rgb colors, e.g. 'rgb(0 0 0)'
-            enable_rgb = true,
+        ---Highlight short hex colors e.g. '#fff'
+        enable_short_hex = true,
 
-            ---Highlight hsl colors, e.g. 'hsl(150deg 30% 40%)'
-            enable_hsl = true,
+        ---Highlight rgb colors, e.g. 'rgb(0 0 0)'
+        enable_rgb = true,
 
-            ---Highlight ansi colors, e.g '\033[0;34m'
-            enable_ansi = true,
+        ---Highlight hsl colors, e.g. 'hsl(150deg 30% 40%)'
+        enable_hsl = true,
 
-            -- Highlight hsl colors without function, e.g. '--foreground: 0 69% 69%;'
-            enable_hsl_without_function = true,
+        ---Highlight ansi colors, e.g '\033[0;34m'
+        enable_ansi = true,
 
-            ---Highlight CSS variables, e.g. 'var(--testing-color)'
-            enable_var_usage = true,
+        -- Highlight hsl colors without function, e.g. '--foreground: 0 69% 69%;'
+        enable_hsl_without_function = true,
 
-            ---Highlight named colors, e.g. 'green'
-            enable_named_colors = true,
+        ---Highlight CSS variables, e.g. 'var(--testing-color)'
+        enable_var_usage = true,
 
-            ---Highlight tailwind colors, e.g. 'bg-blue-500'
-            enable_tailwind = true,
+        ---Highlight named colors, e.g. 'green'
+        enable_named_colors = true,
 
-            ---Set custom colors
-            ---Label must be properly escaped with '%' to adhere to `string.gmatch`
-            --- :help string.gmatch
-            custom_colors = {
-                { label = '%-%-theme%-primary%-color', color = '#0f1219' },
-                { label = '%-%-theme%-secondary%-color', color = '#5a5d64' },
-            },
+        ---Highlight tailwind colors, e.g. 'bg-blue-500'
+        enable_tailwind = true,
 
-            -- Exclude filetypes or buftypes from highlighting e.g. 'exclude_buftypes = {'text'}'
-            exclude_filetypes = {},
-            exclude_buftypes = {},
-            -- Exclude buffer from highlighting e.g. 'exclude_buffer = function(bufnr) return vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr)) > 1000000 end'
-            exclude_buffer = function(bufnr) end,
+        ---Set custom colors
+        ---Label must be properly escaped with '%' to adhere to `string.gmatch`
+        --- :help string.gmatch
+        custom_colors = {
+            { label = '%-%-theme%-primary%-color', color = '#0f1219' },
+            { label = '%-%-theme%-secondary%-color', color = '#5a5d64' },
         },
-    },
-    {
-        vim.keymap.set('n', '<leader>tc', function()
-            require('nvim-highlight-colors').toggle()
-        end, { desc = '[T]oggle: highlight [c]olors' }),
-    },
-}
+
+        -- Exclude filetypes or buftypes from highlighting e.g. 'exclude_buftypes = {'text'}'
+        exclude_filetypes = {},
+        exclude_buftypes = {},
+        -- Exclude buffer from highlighting e.g. 'exclude_buffer = function(bufnr) return vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr)) > 1000000 end'
+        exclude_buffer = function(bufnr) end,
+    }
+    require('nvim-highlight-colors').setup(opts)
+    vim.keymap.set('n', '<leader>tc', function()
+        require('nvim-highlight-colors').toggle()
+    end, { desc = '[T]oggle: highlight [c]olors' })
+end

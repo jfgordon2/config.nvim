@@ -1,10 +1,8 @@
 -- Which-key - Show pending keybinds
 -- Helpful plugin to discover and learn keybindings
 
-return {
-    'folke/which-key.nvim',
-    event = 'VimEnter',
-    opts = {
+return function()
+    local opts = {
         delay = 0,
         icons = {
             mappings = vim.g.have_nerd_font,
@@ -64,5 +62,6 @@ return {
             { '[', group = 'Previous' },
             { ']', group = 'Next' },
         },
-    },
-}
+    }
+    require('which-key').setup(opts)
+end

@@ -1,3 +1,5 @@
+local buffers = require 'config.buffers'
+
 -- Global keymaps
 -- These are general keymaps not specific to any plugin
 
@@ -8,7 +10,6 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>xq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Terminal mode shortcuts
-vim.keymap.set('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'Return terminal to normal mode' })
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Window navigation - Use CTRL+<hjkl> to switch between windows
@@ -32,21 +33,9 @@ vim.keymap.set('x', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev Se
 vim.keymap.set('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev Search Result' })
 
 -- Buffer management
-vim.keymap.set('n', '<leader>bd', function()
-    if LazyVim and LazyVim.has 'snacks.nvim' then
-        Snacks.bufdelete()
-    else
-        vim.cmd 'bdelete'
-    end
-end, { desc = 'Delete Buffer' })
+vim.keymap.set('n', '<leader>bd', buffers.delete, { desc = 'Delete Buffer' })
 
-vim.keymap.set('n', '<leader>bo', function()
-    if LazyVim and LazyVim.has 'snacks.nvim' then
-        Snacks.bufdelete.other()
-    else
-        vim.cmd 'bufdo bdelete'
-    end
-end, { desc = 'Delete Other Buffers' })
+vim.keymap.set('n', '<leader>bo', buffers.others, { desc = 'Delete Other Buffers' })
 
 -- Toggle diagnostics
 vim.keymap.set('n', '<leader>tt', function()
@@ -88,44 +77,28 @@ end, { noremap = true, silent = true, desc = '[T]oggle [T]rouble Diagnostics' })
 --     end
 -- end, { desc = '[T]erminal: [R]epeat last command' })
 
--- Format highlighted JSON text in place or whole file
-vim.keymap.set('v', '<leader>cj', function()
-    local start_line = math.min(vim.fn.line "'<", vim.fn.line "'>") - 1
-    local end_line = math.max(vim.fn.line "'<", vim.fn.line "'>")
+-- Format JSON in the whole buffer or the active Visual selection.
+local json = require 'config.json'
+vim.keymap.set('x', '<leader>cj', json.selection, { desc = '[C]ode: Format JSON selection' })
+vim.keymap.set('n', '<leader>cj', json.file, { desc = '[C]ode: Format JSON (whole file)' })
 
-    local selected_text = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
-    local text_to_format = table.concat(selected_text, '\n')
+-- Convert leading indentation and configure subsequent edits in this buffer.
+local function convert_indentation(use_spaces)
+    vim.bo.tabstop = 4
+    vim.bo.shiftwidth = 4
+    vim.bo.softtabstop = use_spaces and 4 or 0
+    vim.bo.vartabstop = ''
+    vim.bo.varsofttabstop = ''
+    vim.bo.expandtab = use_spaces
+    vim.cmd '%retab! -indentonly'
+end
 
-    local formatted = vim.fn.system('jq .', text_to_format)
-
-    if vim.v.shell_error == 0 and formatted then
-        -- Save cursor position
-        local cursor_pos = vim.fn.getpos '.'
-        -- Replace the selection with formatted text
-        vim.api.nvim_buf_set_lines(0, start_line, end_line, false, vim.split(formatted, '\n'))
-        -- Restore cursor position
-        vim.fn.setpos('.', cursor_pos)
-    else
-        vim.notify(formatted or 'Invalid JSON', vim.log.levels.ERROR, { title = 'JSON Format Error' })
-    end
-end, { desc = '[C]ode: Format JSON' })
-
-vim.keymap.set('n', '<leader>cj', function()
-    local content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n')
-
-    local formatted = vim.fn.system('jq .', content)
-
-    if vim.v.shell_error == 0 and formatted then
-        -- Save cursor position
-        local cursor_pos = vim.fn.getpos '.'
-        -- Replace buffer content
-        vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(formatted, '\n'))
-        -- Restore cursor position
-        vim.fn.setpos('.', cursor_pos)
-    else
-        vim.notify(formatted or 'Invalid JSON', vim.log.levels.ERROR, { title = 'JSON Format Error' })
-    end
-end, { desc = '[C]ode: Format JSON (whole file)' })
+vim.keymap.set('n', '<leader>c4', function()
+    convert_indentation(true)
+end, { desc = '[C]ode: Convert indentation to [4] spaces' })
+vim.keymap.set('n', '<leader>ct', function()
+    convert_indentation(false)
+end, { desc = '[C]ode: Convert indentation to [t]abs (width 4)' })
 
 vim.keymap.set('n', '<leader>ww', function()
     local on_exit = function(obj)

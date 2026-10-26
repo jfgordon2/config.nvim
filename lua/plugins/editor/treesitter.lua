@@ -91,11 +91,6 @@ local function setup_treesitter()
     end
 end
 
-return {
-    'nvim-treesitter/nvim-treesitter',
-    branch = 'main',
-    dependencies = { 'OXY2DEV/markview.nvim' },
-    build = ':TSUpdate',
-    lazy = false,
-    config = setup_treesitter,
-}
+return function()
+    setup_treesitter()
+end

@@ -1,0 +1,311 @@
+[
+    {
+        "mode": [
+            "n",
+            "t",
+            "i",
+            "x"
+        ],
+        "lhs": "<c-.>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>aa"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>as"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>ad"
+    },
+    {
+        "mode": [
+            "x",
+            "n"
+        ],
+        "lhs": "<leader>at"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>af"
+    },
+    {
+        "mode": [
+            "x"
+        ],
+        "lhs": "<leader>av"
+    },
+    {
+        "mode": [
+            "n",
+            "x"
+        ],
+        "lhs": "<leader>ap"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>ac"
+    },
+    {
+        "mode": "",
+        "lhs": "<leader>cf"
+    },
+    {
+        "mode": "",
+        "lhs": "<leader>cF"
+    },
+    {
+        "mode": "",
+        "lhs": "<leader>tf"
+    },
+    {
+        "mode": "n",
+        "lhs": "<F5>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>B<F5>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<F1>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>B<F1>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<F2>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>B<F2>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<F3>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>B<F3>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>Bb"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>BB"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>Bc"
+    },
+    {
+        "mode": "n",
+        "lhs": "<F7>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>B<F7>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>sB"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>md"
+    },
+    {
+        "mode": [
+            "n",
+            "v"
+        ],
+        "lhs": "<leader>sR"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>qs"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>qS"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>ql"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>qd"
+    },
+    {
+        "ft": "python",
+        "mode": "n",
+        "lhs": "<leader>cv"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>?"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>bp"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>bP"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>bo"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>br"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>bl"
+    },
+    {
+        "mode": "n",
+        "lhs": "<S-h>"
+    },
+    {
+        "mode": "n",
+        "lhs": "<S-l>"
+    },
+    {
+        "mode": "n",
+        "lhs": "[b"
+    },
+    {
+        "mode": "n",
+        "lhs": "]b"
+    },
+    {
+        "mode": "n",
+        "lhs": "[B"
+    },
+    {
+        "mode": "n",
+        "lhs": "]B"
+    },
+    {
+        "mode": "n",
+        "lhs": "\\"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>ee"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>eE"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>eg"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>eb"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>wd"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>wf"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>ti"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>nn"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>nh"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>ng"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>gg"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>gG"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>gb"
+    },
+    {
+        "mode": "n",
+        "lhs": "]t"
+    },
+    {
+        "mode": "n",
+        "lhs": "[t"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>xt"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>xT"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>st"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>sT"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>xx"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>xX"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>cs"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>cS"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>xL"
+    },
+    {
+        "mode": "n",
+        "lhs": "<leader>xQ"
+    },
+    {
+        "mode": "n",
+        "lhs": "[q"
+    },
+    {
+        "mode": "n",
+        "lhs": "]q"
+    }
+]
