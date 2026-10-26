@@ -1,10 +1,8 @@
-return {
-    'jfgordon2/mdpick.nvim',
-    opts = {
+return function()
+    local opts = {
         picker = 'fzf',
         preview_window = 'right,80%,wrap',
-    },
-    keys = {
-        { '<leader>md', '<cmd>MdPick<cr>', desc = 'Pick Markdown document' },
-    },
-}
+    }
+    require('mdpick').setup(opts)
+    vim.keymap.set('n', '<leader>md', '<cmd>MdPick<cr>', { desc = 'Find Markdown document' })
+end

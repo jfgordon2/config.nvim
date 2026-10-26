@@ -1,0 +1,1 @@
+Cleanup verification: Lua, Python, TypeScript and Rust LSP attachment; all original mappings; first-save Lua formatting; native completion/snippet/sorter libraries; one Rust server; shared buffer actions; configured and unconfigured Markdown/text buffers; no duplicate Vale diagnostics. Remaining 66 plugin revisions preserved.

@@ -1,7 +1,6 @@
-return {
-    'altermo/ultimate-autopair.nvim',
-    event = { 'InsertEnter', 'CmdlineEnter' },
-    opts = {
+return function()
+    local opts = {
         --Config goes here
-    },
-}
+    }
+    require('ultimate-autopair').setup(opts)
+end

@@ -1,5 +1,4 @@
--- Neovim Configuration Entry Point
--- Load configuration which will set up everything
+-- Native Neovim test configuration. Launch with NVIM_APPNAME=nvim-pack-test.
 
 require 'config'
 

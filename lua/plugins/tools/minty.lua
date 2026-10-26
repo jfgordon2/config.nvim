@@ -1,11 +1,5 @@
-return {
-    {
-        'nvzone/minty',
-        dependencies = { 'nvzone/volt' },
-        cmd = { 'Shades', 'Huefy' },
-        opts = {},
-    },
-    {
-        vim.keymap.set('n', '<leader>ts', ':Shades<CR>', { desc = '[T]ool: [S]hades' }),
-    },
-}
+return function()
+    local opts = {}
+    require('minty').setup(opts)
+    vim.keymap.set('n', '<leader>uc', ':Shades<CR>', { desc = 'Pick color (Shades)' })
+end

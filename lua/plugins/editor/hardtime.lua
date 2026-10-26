@@ -1,8 +1,5 @@
-return {
-    'm4xshen/hardtime.nvim',
-    lazy = false,
-    dependencies = { 'MunifTanjim/nui.nvim' },
-    opts = {
+return function()
+    local opts = {
         hint = true,
         enabled = true,
         disable_mouse = false,
@@ -11,5 +8,6 @@ return {
             ['j'] = false,
             ['k'] = false,
         },
-    },
-}
+    }
+    require('hardtime').setup(opts)
+end

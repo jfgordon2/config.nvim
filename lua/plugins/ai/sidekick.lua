@@ -27,105 +27,58 @@ local function patch_sidekick_mux()
     end
 end
 
-return {
-    {
-        'folke/sidekick.nvim',
-        lazy = false,
-        opts = {
-            cli = {
-                mux = {
-                    backend = 'tmux',
-                    enabled = true,
-                    create = 'terminal',
-                    split = {
-                        vertical = true,
-                        size = 0.3,
-                    },
-                },
-                tools = {
-                    codex = {
-                        cmd = { 'codex' },
-                    },
+return function()
+    local opts = {
+        cli = {
+            mux = {
+                backend = 'tmux',
+                enabled = true,
+                create = 'terminal',
+                split = {
+                    vertical = true,
+                    size = 0.3,
                 },
             },
-            copilot = {
-                status = {
-                    enabled = false,
+            tools = {
+                codex = {
+                    cmd = { 'codex' },
                 },
             },
         },
-        config = function(_, opts)
-            patch_sidekick_mux()
-            require('sidekick').setup(opts)
-        end,
-        keys = {
-            {
-                '<c-.>',
-                function()
-                    require('sidekick.cli').focus()
-                end,
-                desc = 'Sidekick Focus',
-                mode = { 'n', 't', 'i', 'x' },
-            },
-            {
-                '<leader>aa',
-                function()
-                    require('sidekick.cli').toggle()
-                end,
-                desc = 'Sidekick Toggle CLI',
-            },
-            {
-                '<leader>as',
-                function()
-                    require('sidekick.cli').select()
-                end,
-                desc = 'Select CLI',
-            },
-            {
-                '<leader>ad',
-                function()
-                    require('sidekick.cli').close()
-                end,
-                desc = 'Detach a CLI Session',
-            },
-            {
-                '<leader>at',
-                function()
-                    require('sidekick.cli').send { msg = '{this}' }
-                end,
-                mode = { 'x', 'n' },
-                desc = 'Send This',
-            },
-            {
-                '<leader>af',
-                function()
-                    require('sidekick.cli').send { msg = '{file}' }
-                end,
-                desc = 'Send File',
-            },
-            {
-                '<leader>av',
-                function()
-                    require('sidekick.cli').send { msg = '{selection}' }
-                end,
-                mode = { 'x' },
-                desc = 'Send Visual Selection',
-            },
-            {
-                '<leader>ap',
-                function()
-                    require('sidekick.cli').prompt()
-                end,
-                mode = { 'n', 'x' },
-                desc = 'Sidekick Select Prompt',
-            },
-            {
-                '<leader>ac',
-                function()
-                    require('sidekick.cli').toggle { name = 'codex', focus = true }
-                end,
-                desc = 'Sidekick Toggle Codex',
+        copilot = {
+            status = {
+                enabled = false,
             },
         },
-    },
-}
+    }
+    patch_sidekick_mux()
+    require('sidekick').setup(opts)
+
+    vim.keymap.set({ 'n', 't', 'i', 'x' }, '<c-.>', function()
+        require('sidekick.cli').focus()
+    end, { desc = 'Focus AI CLI' })
+    vim.keymap.set('n', '<leader>aa', function()
+        require('sidekick.cli').toggle()
+    end, { desc = 'Toggle AI CLI' })
+    vim.keymap.set('n', '<leader>as', function()
+        require('sidekick.cli').select()
+    end, { desc = 'Choose AI CLI' })
+    vim.keymap.set('n', '<leader>ad', function()
+        require('sidekick.cli').close()
+    end, { desc = 'Detach AI CLI session' })
+    vim.keymap.set({ 'x', 'n' }, '<leader>at', function()
+        require('sidekick.cli').send { msg = '{this}' }
+    end, { desc = 'Send current context to AI' })
+    vim.keymap.set('n', '<leader>af', function()
+        require('sidekick.cli').send { msg = '{file}' }
+    end, { desc = 'Send file to AI' })
+    vim.keymap.set({ 'x' }, '<leader>av', function()
+        require('sidekick.cli').send { msg = '{selection}' }
+    end, { desc = 'Send selection to AI' })
+    vim.keymap.set({ 'n', 'x' }, '<leader>ap', function()
+        require('sidekick.cli').prompt()
+    end, { desc = 'Choose AI prompt' })
+    vim.keymap.set('n', '<leader>ac', function()
+        require('sidekick.cli').toggle { name = 'codex', focus = true }
+    end, { desc = 'Toggle Codex CLI' })
+end

@@ -1,47 +1,5 @@
-return { -- Autoformat
-    'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
-    cmd = { 'ConformInfo' },
-    keys = {
-        {
-            '<leader>cf',
-            function()
-                require('conform').format { async = true, lsp_format = 'fallback' }
-            end,
-            mode = '',
-            desc = '[C]ode: [F]ormat buffer',
-        },
-        {
-            '<leader>cF',
-            mode = '',
-            desc = '[C]ode: List formatters to run',
-            function()
-                local curr_buf = vim.api.nvim_get_current_buf()
-                local formatters = require('conform').list_formatters_to_run(curr_buf)
-                local formatter_names = vim.tbl_map(function(f)
-                    return type(f) == 'string' and f or f.name
-                end, formatters)
-                vim.notify('Formatters to run: ' .. table.concat(formatter_names, ', '), vim.log.levels.INFO, { title = 'Conform' })
-            end,
-        },
-        {
-            '<leader>tf',
-            mode = '',
-            desc = '[T]oggle: [F]ormat on save',
-            function()
-                if vim.g.disable_autoformat then
-                    vim.g.disable_autoformat = false
-                    vim.notify('Autoformat enabled', vim.log.levels.INFO, { title = 'Conform' })
-                else
-                    vim.g.disable_autoformat = true
-                    vim.notify('Autoformat disabled', vim.log.levels.INFO, { title = 'Conform' })
-                end
-            end,
-        },
-    },
-    ---@module "conform"
-    ---@type conform.setupOpts
-    opts = {
+return function()
+    local opts = {
         timeout_ms = 3000,
         async = false,
         quiet = false,
@@ -59,56 +17,32 @@ return { -- Autoformat
                 }
             end
         end,
-        formatters_by_ft = {
-            css = { 'biome' },
-            fish = { 'fish_indent' },
-            graphql = { 'biome' },
-            go = { 'goimports', 'gofmt' },
-            hcl = { 'terraform_fmt' },
-            html = { 'biome' },
-            lua = { 'stylua' },
-            rust = { 'rustfmt', lsp_format = 'fallback' },
-            javascript = { 'biome' },
-            javascriptreact = { 'biome' },
-            json = { 'biome' },
-            jsonc = { 'biome' },
-            markdown = { 'markdownlint-cli2' },
-            ['markdown.mdx'] = { 'markdownlint-cli2' },
-            mysql = { 'sqlfluff' },
-            plsql = { 'sqlfluff' },
-            python = function(bufnr)
-                if require('conform').get_formatter_info('ruff_format', bufnr).available then
-                    return { 'ruff_format', 'ruff_organize_imports' }
-                else
-                    return { 'isort', 'black' }
-                end
-            end,
-            sh = { 'shfmt' },
-            sql = { 'sqlfluff' },
-            svelte = { 'biome' },
-            terraform = { 'terraform_fmt' },
-            ['terraform-vars'] = { 'terraform_fmt' },
-            tf = { 'terraform_fmt' },
-            toml = { 'taplo' },
-            typescript = { 'biome' },
-            typescriptreact = { 'biome' },
-            vue = { 'biome' },
-            yaml = { 'yamlfmt' },
-            -- ['*'] = { 'codespell' },
-            ['_'] = { 'trim_whitespace' },
-        },
+        formatters_by_ft = require('config.tools').formatters_by_ft,
         -- The options you set here will be merged with the builtin formatters.
         -- You can also define any custom formatters here.
         ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
         formatters = {
+            json_native = {
+                inherit = false,
+                format = function(_, ctx, lines, callback)
+                    local ok, result = pcall(require('config.json').format_lines, lines, ctx.buf)
+                    if ok then
+                        callback(nil, result)
+                    else
+                        callback(tostring(result))
+                    end
+                end,
+            },
             injected = { options = { ignore_errors = true } },
             taplo = {
                 prepend_args = { 'format', '-o', 'indent_string=    ', '-' },
             },
             biome = {
-                prepend_args = {
+                -- Replace builtin args so indent flags are passed only once.
+                args = {
                     'format',
-                    '--write',
+                    '--stdin-file-path',
+                    '$FILENAME',
                     '--indent-style=space',
                     '--indent-width=2',
                     '--jsx-quote-style=single',
@@ -144,5 +78,26 @@ return { -- Autoformat
                 },
             },
         },
-    },
-}
+    }
+    require('conform').setup(opts)
+    vim.keymap.set('', '<leader>cf', function()
+        require('conform').format { async = true, lsp_format = 'fallback' }
+    end, { desc = 'Format buffer or selection' })
+    vim.keymap.set('', '<leader>cF', function()
+        local curr_buf = vim.api.nvim_get_current_buf()
+        local formatters = require('conform').list_formatters_to_run(curr_buf)
+        local formatter_names = vim.tbl_map(function(f)
+            return type(f) == 'string' and f or f.name
+        end, formatters)
+        vim.notify('Formatters to run: ' .. table.concat(formatter_names, ', '), vim.log.levels.INFO, { title = 'Conform' })
+    end, { desc = 'Show formatters' })
+    vim.keymap.set('', '<leader>tf', function()
+        if vim.g.disable_autoformat then
+            vim.g.disable_autoformat = false
+            vim.notify('Autoformat enabled', vim.log.levels.INFO, { title = 'Conform' })
+        else
+            vim.g.disable_autoformat = true
+            vim.notify('Autoformat disabled', vim.log.levels.INFO, { title = 'Conform' })
+        end
+    end, { desc = 'Toggle format on save' })
+end

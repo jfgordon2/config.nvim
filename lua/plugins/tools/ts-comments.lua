@@ -1,4 +1,4 @@
-return {
-    'folke/ts-comments.nvim',
-    opts = {},
-}
+return function()
+    local opts = {}
+    require('ts-comments').setup(opts)
+end
