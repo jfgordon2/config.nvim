@@ -68,8 +68,8 @@
       "src": "https://github.com/m4xshen/hardtime.nvim.git"
     },
     "ipynb.nvim": {
-      "src": "https://github.com/ajbucci/ipynb.nvim.git",
-      "rev": "9c06504b2597404eceda7da18fd68c0d55edbb4e"
+      "rev": "9c06504b2597404eceda7da18fd68c0d55edbb4e",
+      "src": "https://github.com/ajbucci/ipynb.nvim.git"
     },
     "lazydev.nvim": {
       "rev": "ff2cbcba459b637ec3fd165a2be59b7bbaeedf0d",
@@ -263,7 +263,7 @@
       "src": "https://github.com/tpope/vim-fugitive.git"
     },
     "volt": {
-      "rev": "620de1321f275ec9d80028c68d1b88b409c0c8b1",
+      "rev": "4351c5cd790a0d39491c4d5c75dd62d7db3d3414",
       "src": "https://github.com/nvzone/volt.git"
     },
     "vsterm.nvim": {
