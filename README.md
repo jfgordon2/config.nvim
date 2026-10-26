@@ -145,6 +145,8 @@ The leader key is **Space**. Press it and wait to see available mappings.
 | `<leader>cj` | Format JSON in the whole buffer or the exact Visual selection. |
 | `<leader>c4` | Convert leading indentation to spaces and use four-space tab stops. |
 | `<leader>ct` | Convert leading indentation to tabs displayed four columns wide. |
+| `<leader>tS` | Split/join arguments between single-line and multiline layouts. |
+| `<leader>ts` | Open the Shades color picker. |
 
 JSON formatting uses native `vim.json` APIs and the buffer's indentation settings.
 JSONC uses Biome to preserve comments. Native JSON formatting accepts one complete

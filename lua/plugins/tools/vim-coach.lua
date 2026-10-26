@@ -10,5 +10,4 @@ return function()
         },
     }
     require('vim-coach').setup(opts)
-    vim.keymap.set('n', '<leader>?', '<cmd>VimCoach<cr>', { desc = 'Vim Coach' })
 end

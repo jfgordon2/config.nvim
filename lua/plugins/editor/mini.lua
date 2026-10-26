@@ -49,12 +49,17 @@ return function()
             },
         }
 
-        -- Split/Join scopes using gS
+        -- Toggle arguments between single-line and multiline layouts.
         require('mini.splitjoin').setup {
             mappings = {
                 toggle = '<leader>tS',
             },
         }
+        for _, mode in ipairs { 'n', 'x' } do
+            local mapping = vim.fn.maparg('<leader>tS', mode, false, true)
+            mapping.desc = 'Split/join arguments'
+            vim.fn.mapset(mode, false, mapping)
+        end
 
         -- Simple and easy statusline.
         --  You could remove this setup call if you don't like it,
