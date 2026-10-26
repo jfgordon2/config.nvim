@@ -38,30 +38,48 @@ return function()
             },
         },
         spec = {
-            { '<leader>', group = 'Leader' },
-            { '<leader>a', group = '[A]i', mode = { 'n', 'x', 'v' } },
-            { '<leader>b', group = '[B]uffer' },
-            { '<leader>B', group = '[B]reakpoint' },
-            { '<leader>c', group = '[C]ode', mode = { 'n', 'x', 'v' } },
-            { '<leader>d', group = '[D]ocument' },
-            { '<leader>e', group = '[E]xplore' },
-            { '<leader>g', group = '[G]it', mode = { 'n', 'v' } },
-            { '<leader>n', group = '[N]otifications' },
-            { '<leader>N', group = '[N]eotest', mode = { 'n' } },
-            { '<leader>q', group = 'Session Management' },
-            { '<leader>r', group = '[R]ename' },
-            { '<leader>s', group = '[S]earch', mode = { 'n', 'v', 'x' } },
-            { '<leader>t', group = '[T]oggle', mode = { 'n', 'v', 'x' } },
-            { '<leader>v', group = '[V]sterm' },
-            { '<leader>w', group = '[W]orkspace' },
-            { '<leader>x', group = 'E[x]amine Trouble' },
-            { 'gs', group = '[S]urround' },
-            { 'g', group = '[G]o to' },
+            { '<leader>', group = 'Leader', mode = { 'n', 'x' } },
+            { '<leader>a', group = 'AI', mode = { 'n', 'x' } },
+            { '<leader>b', group = 'Buffers' },
+            { '<leader>B', group = 'Debug' },
+            { '<leader>c', group = 'Code', mode = { 'n', 'x' } },
+            { '<leader>d', group = 'Document' },
+            { '<leader>e', group = 'Explorer' },
+            { '<leader>g', group = 'Git', mode = { 'n', 'x' } },
+            { '<leader>h', group = 'Help' },
+            { '<leader>m', group = 'Markdown' },
+            { '<leader>n', group = 'Notifications' },
+            { '<leader>N', group = 'Tests' },
+            { '<leader>q', group = 'Sessions' },
+            { '<leader>r', group = 'Refactor' },
+            { '<leader>s', group = 'Search', mode = { 'n', 'x' } },
+            { '<leader>t', group = 'Toggles', mode = { 'n', 'x' } },
+            { '<leader>u', group = 'Utilities' },
+            { '<leader>v', group = 'Terminals' },
+            { '<leader>w', group = 'Workspace' },
+            { '<leader>x', group = 'Diagnostics and lists' },
+            { 'gs', group = 'Surround', mode = { 'n', 'x' } },
+            { 'g', group = 'Go to' },
             { 'gr', group = 'LSP' },
-            { 'z', group = 'Fold & more' },
+            { 'z', group = 'Folds and view' },
             { '[', group = 'Previous' },
             { ']', group = 'Next' },
         },
     }
     require('which-key').setup(opts)
+
+    -- Notebook keys also exist in the plugin's Python/other-language cell buffers.
+    vim.api.nvim_create_autocmd({ 'FileType', 'BufEnter' }, {
+        group = vim.api.nvim_create_augroup('notebook-keymap-group', { clear = true }),
+        callback = function(event)
+            if vim.b[event.buf].which_key_notebook_group then
+                return
+            end
+            if vim.bo[event.buf].filetype == 'ipynb' or vim.b[event.buf].ipynb_is_edit_buffer then
+                -- Register late cell buffers immediately, after the startup queue.
+                require('which-key.config').add { { '<leader>k', group = 'Notebook', buffer = event.buf } }
+                vim.b[event.buf].which_key_notebook_group = true
+            end
+        end,
+    })
 end

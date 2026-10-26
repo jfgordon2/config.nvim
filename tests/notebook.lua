@@ -8,6 +8,15 @@ local function run()
     assert(state.cells[1].source == 'value = 1\n', 'code cell source was changed on read')
     assert(state.cells[2].source == '# Notes\n', 'Markdown cell source was changed on read')
     assert(not state.kernel, 'opening a notebook should not start a kernel')
+    local function notebook_group(buffer)
+        for _, item in ipairs(require('which-key.config').mappings) do
+            if item.group and item.desc == 'Notebook' and item.buffer == buffer then
+                return true
+            end
+        end
+        return false
+    end
+    assert(notebook_group(buf), 'notebook facade is missing its WhichKey group')
     assert(vim.treesitter.get_parser(buf, 'ipynb'):parse()[1], 'notebook parser is unavailable')
     assert(vim.fn.exists ':NotebookKernelStart' == 2, 'notebook commands are missing')
     assert(vim.fn.maparg('<leader>ks', 'n', false, true).buffer == 1, 'notebook keys must be buffer-local')
@@ -16,6 +25,7 @@ local function run()
     require('ipynb.edit').open(state, 'normal')
     local edit = assert(state.edit_state, 'cell editing did not open')
     assert(vim.bo[edit.buf].filetype == 'python', 'code cell editor has the wrong filetype')
+    assert(notebook_group(edit.buf), 'notebook cell editor is missing its WhichKey group')
     local keys = vim.api.nvim_replace_termcodes('gg0ccvalue = 42<Esc>', true, false, true)
     vim.api.nvim_feedkeys(keys, 'xt', false)
     -- Flush the normal-mode edit event while this headless callback is running.

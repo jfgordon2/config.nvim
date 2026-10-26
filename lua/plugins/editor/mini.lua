@@ -52,11 +52,11 @@ return function()
         -- Toggle arguments between single-line and multiline layouts.
         require('mini.splitjoin').setup {
             mappings = {
-                toggle = '<leader>tS',
+                toggle = '<leader>cJ',
             },
         }
         for _, mode in ipairs { 'n', 'x' } do
-            local mapping = vim.fn.maparg('<leader>tS', mode, false, true)
+            local mapping = vim.fn.maparg('<leader>cJ', mode, false, true)
             mapping.desc = 'Split/join arguments'
             vim.fn.mapset(mode, false, mapping)
         end

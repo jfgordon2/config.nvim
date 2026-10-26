@@ -28,6 +28,24 @@ with tempfile.TemporaryDirectory(prefix='nvim-pack-smoke-') as directory:
     print(f'JSON mappings: exit {result.returncode}\n{result.stdout}{result.stderr}', flush=True)
     if result.returncode:
         raise SystemExit(result.returncode)
+    project = root / 'keymap repo'
+    (project / 'buffer dir').mkdir(parents=True)
+    (project / 'cwd dir').mkdir()
+    keymap_file = project / 'buffer dir/main.lua'
+    keymap_file.write_text('local value = 1\nreturn value\n')
+    (project / '.luarc.json').write_text('{}\n')
+    (root / 'outside.lua').write_text('return true\n')
+    subprocess.run(['git', 'init', '--quiet', str(project)], check=True)
+    subprocess.run(['git', 'add', '.'], cwd=project, check=True)
+    subprocess.run(['git', '-c', 'user.name=Neovim test', '-c', 'user.email=test@example.invalid',
+                    'commit', '--quiet', '-m', 'Create fixture'], cwd=project, check=True)
+    env['KEYMAP_TEST_ROOT'] = str(project)
+    result = subprocess.run(['nvim', '--headless', '-n', '-i', 'NONE', str(keymap_file), '-c',
+        f'lua dofile("{config}/tests/keymaps.lua")'], env=env, cwd=root,
+        capture_output=True, text=True, timeout=45)
+    print(f'Keymaps: exit {result.returncode}\n{result.stdout}{result.stderr}', flush=True)
+    if result.returncode:
+        raise SystemExit(result.returncode)
     (root / 'Cargo.toml').write_text('[package]\nname = "pack_smoke"\nversion = "0.1.0"\nedition = "2021"\n[[bin]]\nname = "pack_smoke"\npath = "main.rs"\n')
     notebook = root / 'notebook.ipynb'
     notebook.write_text(json.dumps({

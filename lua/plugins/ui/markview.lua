@@ -11,6 +11,6 @@ return function()
             check_rtp_message = false,
         },
     }
-    vim.keymap.set('n', '<leader>tM', ':Markview toggle<CR>', { desc = '[T]oggle [M]arkdown Preview' })
-    vim.keymap.set('n', '<leader>tm', ':Markview splitToggle<CR>', { desc = '[T]oggle [M]arkdown Split Preview' })
+    vim.keymap.set('n', '<leader>tM', ':Markview toggle<CR>', { desc = 'Toggle Markdown preview' })
+    vim.keymap.set('n', '<leader>tm', ':Markview splitToggle<CR>', { desc = 'Toggle Markdown split preview' })
 end

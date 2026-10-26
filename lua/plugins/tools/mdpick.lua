@@ -4,5 +4,5 @@ return function()
         preview_window = 'right,80%,wrap',
     }
     require('mdpick').setup(opts)
-    vim.keymap.set('n', '<leader>md', '<cmd>MdPick<cr>', { desc = 'Pick Markdown document' })
+    vim.keymap.set('n', '<leader>md', '<cmd>MdPick<cr>', { desc = 'Find Markdown document' })
 end

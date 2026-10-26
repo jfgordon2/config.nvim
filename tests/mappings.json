@@ -114,7 +114,7 @@
     },
     {
         "mode": "n",
-        "lhs": "<leader>sB"
+        "lhs": "<leader>ef"
     },
     {
         "mode": "n",
@@ -226,7 +226,7 @@
     },
     {
         "mode": "n",
-        "lhs": "<leader>ti"
+        "lhs": "<leader>ei"
     },
     {
         "mode": "n",
@@ -235,10 +235,6 @@
     {
         "mode": "n",
         "lhs": "<leader>nh"
-    },
-    {
-        "mode": "n",
-        "lhs": "<leader>ng"
     },
     {
         "mode": "n",
@@ -307,5 +303,20 @@
     {
         "mode": "n",
         "lhs": "]q"
+    },
+    {
+        "lhs": "<leader>cJ",
+        "mode": [
+            "n",
+            "x"
+        ]
+    },
+    {
+        "lhs": "<leader>uc",
+        "mode": "n"
+    },
+    {
+        "lhs": "<leader>uw",
+        "mode": "n"
     }
 ]

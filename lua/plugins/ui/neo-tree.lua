@@ -35,17 +35,18 @@ return function()
         },
     }
     require('neo-tree').setup(opts)
-    vim.keymap.set('n', '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal', silent = true })
+    vim.keymap.set('n', '\\', ':Neotree reveal<CR>', { desc = 'Reveal current file in explorer', silent = true })
     vim.keymap.set('n', '<leader>ee', function()
-        require('neo-tree.command').execute { toggle = true, dir = vim.uv.cwd() }
-    end, { desc = '[E]xplorer NeoTree (Root Dir)' })
+        local root = Snacks.git.get_root(vim.api.nvim_buf_get_name(0)) or vim.uv.cwd()
+        require('neo-tree.command').execute { toggle = true, dir = root }
+    end, { desc = 'Toggle file explorer (Git root)' })
     vim.keymap.set('n', '<leader>eE', function()
         require('neo-tree.command').execute { toggle = true, dir = vim.uv.cwd() }
-    end, { desc = '[E]xplorer NeoTree (cwd)' })
+    end, { desc = 'Toggle file explorer (cwd)' })
     vim.keymap.set('n', '<leader>eg', function()
         require('neo-tree.command').execute { source = 'git_status', toggle = true }
-    end, { desc = '[E]xplorer [G]it' })
+    end, { desc = 'Toggle Git status explorer' })
     vim.keymap.set('n', '<leader>eb', function()
         require('neo-tree.command').execute { source = 'buffers', toggle = true }
-    end, { desc = '[E]xplorer [B]uffers' })
+    end, { desc = 'Toggle buffer explorer' })
 end

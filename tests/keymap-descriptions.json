@@ -1,0 +1,514 @@
+[
+  {
+    "mode": "n",
+    "lhs": "<leader><leader>",
+    "desc": "Find buffers"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>/",
+    "desc": "Search current buffer"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>?",
+    "desc": "Vim Coach - Comprehensive Help"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>B<F1>",
+    "desc": "Step into"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>B<F2>",
+    "desc": "Step over"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>B<F3>",
+    "desc": "Step out"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>B<F5>",
+    "desc": "Start/continue debugging"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>B<F7>",
+    "desc": "Toggle debug UI"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>BB",
+    "desc": "Set conditional breakpoint"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>Bb",
+    "desc": "Toggle breakpoint"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>Bc",
+    "desc": "Clear all breakpoints"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>Na",
+    "desc": "Attach to nearest test"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>Nd",
+    "desc": "Debug nearest test"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>Nf",
+    "desc": "Run tests in current file"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>Ns",
+    "desc": "Stop nearest test"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>Nt",
+    "desc": "Run nearest test"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>aa",
+    "desc": "Toggle AI CLI"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>ac",
+    "desc": "Toggle Codex CLI"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>ad",
+    "desc": "Detach AI CLI session"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>af",
+    "desc": "Send file to AI"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>ap",
+    "desc": "Choose AI prompt"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>as",
+    "desc": "Choose AI CLI"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>at",
+    "desc": "Send current context to AI"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>bP",
+    "desc": "Delete unpinned buffers"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>bd",
+    "desc": "Delete buffer"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>bl",
+    "desc": "Delete buffers to the left"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>bo",
+    "desc": "Delete other buffers"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>bp",
+    "desc": "Toggle buffer pin"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>br",
+    "desc": "Delete buffers to the right"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>c4",
+    "desc": "Convert indentation to four spaces"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>cF",
+    "desc": "Show formatters"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>cS",
+    "desc": "Toggle LSP navigation list"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>cf",
+    "desc": "Format buffer or selection"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>cj",
+    "desc": "Format JSON buffer"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>cp",
+    "desc": "Copy file path"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>cs",
+    "desc": "Toggle document symbols"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>ct",
+    "desc": "Convert indentation to tabs (width 4)"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>eE",
+    "desc": "Toggle file explorer (cwd)"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>eb",
+    "desc": "Toggle buffer explorer"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>ee",
+    "desc": "Toggle file explorer (Git root)"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>eg",
+    "desc": "Toggle Git status explorer"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>gG",
+    "desc": "Open Lazygit (cwd)"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>gb",
+    "desc": "Open repository on GitHub"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>gg",
+    "desc": "Open Lazygit (Git root)"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>gn",
+    "desc": "Show GitHub notifications"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>gv",
+    "desc": "Open vertical Git diff"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>he",
+    "desc": "Vim Editing Help"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>hh",
+    "desc": "All Commands Help"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>hm",
+    "desc": "Vim Motions Help"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>hp",
+    "desc": "Plugin Commands Help"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>hv",
+    "desc": "Vim Visual Mode Help"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>md",
+    "desc": "Find Markdown document"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>nf",
+    "desc": "Show fortune"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>nh",
+    "desc": "Hide notifications"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>nn",
+    "desc": "Show notification history"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>qS",
+    "desc": "Choose session to restore"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>qd",
+    "desc": "Stop saving the session"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>ql",
+    "desc": "Restore last session"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>qs",
+    "desc": "Restore session for current directory"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>s.",
+    "desc": "Find recent files"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>s/",
+    "desc": "Search open buffers"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>ef",
+    "desc": "Browse files in buffer directory"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>sR",
+    "desc": "Search and replace"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>sT",
+    "desc": "Find TODO/FIX/FIXME comments"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>sd",
+    "desc": "Find diagnostics"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>sf",
+    "desc": "Find files"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>sg",
+    "desc": "Search text (cwd)"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>sh",
+    "desc": "Find help"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>sk",
+    "desc": "Find keymaps"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>sn",
+    "desc": "Find Neovim config files"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>sr",
+    "desc": "Resume last search"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>ss",
+    "desc": "Search text (Git root)"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>st",
+    "desc": "Find TODO comments"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>sw",
+    "desc": "Find current word"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>tM",
+    "desc": "Toggle Markdown preview"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>cJ",
+    "desc": "Split/join arguments"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>tc",
+    "desc": "Toggle color highlighting"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>tf",
+    "desc": "Toggle format on save"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>ei",
+    "desc": "Preview image at cursor"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>tm",
+    "desc": "Toggle Markdown split preview"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>uc",
+    "desc": "Pick color (Shades)"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>tt",
+    "desc": "Toggle diagnostics"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>vk",
+    "desc": "Kill current terminal"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>vn",
+    "desc": "Create new terminal"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>vr",
+    "desc": "Rename current terminal"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>vv",
+    "desc": "Toggle terminal window"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>wd",
+    "desc": "Open dashboard"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>wf",
+    "desc": "Open Git root in Finder"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>uw",
+    "desc": "Show weather"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>xL",
+    "desc": "Toggle location list"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>xQ",
+    "desc": "Toggle quickfix list"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>xS",
+    "desc": "Show diagnostic at cursor"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>xT",
+    "desc": "Toggle TODO/FIX/FIXME list"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>xX",
+    "desc": "Toggle buffer diagnostics list"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>xq",
+    "desc": "Open diagnostic location list"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>xt",
+    "desc": "Toggle TODO list"
+  },
+  {
+    "mode": "n",
+    "lhs": "<leader>xx",
+    "desc": "Toggle diagnostics list"
+  },
+  {
+    "lhs": "<leader>cJ",
+    "mode": "x",
+    "desc": "Split/join arguments"
+  },
+  {
+    "lhs": "<leader>cj",
+    "mode": "x",
+    "desc": "Format JSON selection"
+  },
+  {
+    "lhs": "<leader>av",
+    "mode": "x",
+    "desc": "Send selection to AI"
+  },
+  {
+    "lhs": "<leader>gi",
+    "mode": "n",
+    "desc": "Preview Git hunk inline",
+    "context": "git"
+  },
+  {
+    "lhs": "<leader>cv",
+    "mode": "n",
+    "desc": "Choose Python environment",
+    "context": "python"
+  }
+]

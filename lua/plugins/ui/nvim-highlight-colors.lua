@@ -52,5 +52,5 @@ return function()
     require('nvim-highlight-colors').setup(opts)
     vim.keymap.set('n', '<leader>tc', function()
         require('nvim-highlight-colors').toggle()
-    end, { desc = '[T]oggle: highlight [c]olors' })
+    end, { desc = 'Toggle color highlighting' })
 end

@@ -82,7 +82,7 @@ return function()
     require('conform').setup(opts)
     vim.keymap.set('', '<leader>cf', function()
         require('conform').format { async = true, lsp_format = 'fallback' }
-    end, { desc = '[C]ode: [F]ormat buffer' })
+    end, { desc = 'Format buffer or selection' })
     vim.keymap.set('', '<leader>cF', function()
         local curr_buf = vim.api.nvim_get_current_buf()
         local formatters = require('conform').list_formatters_to_run(curr_buf)
@@ -90,7 +90,7 @@ return function()
             return type(f) == 'string' and f or f.name
         end, formatters)
         vim.notify('Formatters to run: ' .. table.concat(formatter_names, ', '), vim.log.levels.INFO, { title = 'Conform' })
-    end, { desc = '[C]ode: List formatters to run' })
+    end, { desc = 'Show formatters' })
     vim.keymap.set('', '<leader>tf', function()
         if vim.g.disable_autoformat then
             vim.g.disable_autoformat = false
@@ -99,5 +99,5 @@ return function()
             vim.g.disable_autoformat = true
             vim.notify('Autoformat disabled', vim.log.levels.INFO, { title = 'Conform' })
         end
-    end, { desc = '[T]oggle: [F]ormat on save' })
+    end, { desc = 'Toggle format on save' })
 end

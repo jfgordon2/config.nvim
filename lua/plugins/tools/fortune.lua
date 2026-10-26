@@ -12,5 +12,5 @@ return function()
             end
         end
         vim.notify(text, vim.log.levels.INFO, { title = 'Fortune', icon = '󰮥 ' })
-    end, { desc = 'Show a fortune' })
+    end, { desc = 'Show fortune' })
 end

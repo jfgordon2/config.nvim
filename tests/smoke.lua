@@ -83,7 +83,7 @@ local function run()
     else
         check(not next(vim.fn.maparg('<leader>cv', 'n', false, true)), 'Python venv mapping does not leak to other filetypes')
     end
-    check(true, 'all applicable original spec mappings exist')
+    check(true, 'all applicable configured mappings exist')
 
     local compile = require 'luasnip.util.jsregexp'
     check(type(compile) == 'function' and compile('^snippet$', '') ~= nil, 'LuaSnip native jsregexp compiles expressions')

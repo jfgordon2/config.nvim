@@ -57,7 +57,7 @@ return function()
                 { icon = ' ', key = 'g', desc = 'Find Text', action = ":lua Snacks.dashboard.pick('live_grep')" },
                 { icon = ' ', key = 'r', desc = 'Recent Files', action = ":lua Snacks.dashboard.pick('oldfiles')" },
                 { icon = ' ', key = 'c', desc = 'Config', action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-                { icon = ' ', key = 's', desc = 'Restore Session', section = 'session' },
+                { icon = ' ', key = 's', desc = 'Restore session for current directory', section = 'session' },
                 { icon = '󰒲 ', key = 'L', desc = 'Plugins', action = ':PackStatus' },
                 { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
             },
@@ -202,33 +202,30 @@ return function()
 
     vim.keymap.set('n', '<leader>wd', function()
         Snacks.dashboard.open()
-    end, { desc = '[W]orkspace: Show [D]ashboard' })
+    end, { desc = 'Open dashboard' })
     vim.keymap.set('n', '<leader>wf', function()
         os.execute('open ' .. Snacks.git.get_root())
-    end, { desc = '[W]orkspace: Open in Finder' })
-    vim.keymap.set('n', '<leader>ti', function()
+    end, { desc = 'Open Git root in Finder' })
+    vim.keymap.set('n', '<leader>ei', function()
         Snacks.image.hover()
-    end, { desc = '[T]oggle [i]mage at cursor' })
+    end, { desc = 'Preview image at cursor' })
     vim.keymap.set('n', '<leader>nn', function()
         Snacks.notifier.show_history()
-    end, { desc = '[N]otifications: Show [N]otifications History' })
+    end, { desc = 'Show notification history' })
     vim.keymap.set('n', '<leader>nh', function()
         Snacks.notifier.hide()
-    end, { desc = '[N]otifications: [H]ide' })
-    vim.keymap.set('n', '<leader>ng', function()
-        Snacks.notifier.get_history()
-    end, { desc = '[N]otifications: [G]et History' })
+    end, { desc = 'Hide notifications' })
     vim.keymap.set('n', '<leader>gg', function()
         if vim.fn.executable 'lazygit' == 1 then
             Snacks.lazygit { cwd = Snacks.git.get_root() }
         end
-    end, { desc = '[G]it: Lazygit (Root Dir)' })
+    end, { desc = 'Open Lazygit (Git root)' })
     vim.keymap.set('n', '<leader>gG', function()
         if vim.fn.executable 'lazygit' == 1 then
             Snacks.lazygit()
         end
-    end, { desc = '[G]it: Lazygit (cwd)' })
+    end, { desc = 'Open Lazygit (cwd)' })
     vim.keymap.set('n', '<leader>gb', function()
         vim.fn.system 'gh browse'
-    end, { desc = '[G]it: [B]rowse' })
+    end, { desc = 'Open repository on GitHub' })
 end

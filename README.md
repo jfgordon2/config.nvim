@@ -138,6 +138,27 @@ For more information about a particular plugin, check its repository's documenta
 
 The leader key is **Space**. Press it and wait to see available mappings.
 
+Groups use plain task names, and descriptions use verb-first wording. Key names
+are case-sensitive; for example, `cJ` and `cj` perform different actions.
+
+| Prefix | Group | Prefix | Group |
+| :--- | :--- | :--- | :--- |
+| `a` | AI | `b` | Buffers |
+| `B` | Debug | `c` | Code |
+| `d` | Document | `e` | Explorer |
+| `g` | Git | `h` | Help |
+| `k` | Notebook (notebook/cell buffers only) | `m` | Markdown |
+| `n` | Notifications | `N` | Tests |
+| `q` | Sessions | `r` | Refactor |
+| `s` | Search | `t` | Toggles |
+| `u` | Utilities | `v` | Terminals |
+| `w` | Workspace | `x` | Diagnostics and lists |
+
+`<leader>ee` opens the file explorer at the current file's Git root (falling back
+to cwd); `<leader>eE` uses cwd. `<leader>nn` shows notification history, and
+`<leader>gs` stages a hunk. `F7` toggles the debug UI; `<leader>BB` sets a
+conditional breakpoint.
+
 | Mapping | Action |
 | :--- | :--- |
 | `<leader>cf` | Format the current buffer, or the selected range in Visual mode. |
@@ -145,8 +166,12 @@ The leader key is **Space**. Press it and wait to see available mappings.
 | `<leader>cj` | Format JSON in the whole buffer or the exact Visual selection. |
 | `<leader>c4` | Convert leading indentation to spaces and use four-space tab stops. |
 | `<leader>ct` | Convert leading indentation to tabs displayed four columns wide. |
-| `<leader>tS` | Split/join arguments between single-line and multiline layouts. |
-| `<leader>ts` | Open the Shades color picker. |
+| `<leader>cJ` | Split/join arguments between single-line and multiline layouts. |
+| `<leader>uc` | Pick color (Shades). |
+| `<leader>ei` | Preview image at cursor. |
+| `<leader>gi` | Preview Git hunk inline. |
+| `<leader>ef` | Browse files in the current buffer’s directory. |
+| `<leader>uw` | Show weather. |
 
 JSON formatting uses native `vim.json` APIs and the buffer's indentation settings.
 JSONC uses Biome to preserve comments. Native JSON formatting accepts one complete
@@ -210,6 +235,7 @@ its plugins and tools finish installing, run:
 python3 "${XDG_CONFIG_HOME:-$HOME/.config}/nvim-pack-test/tests/run.py"
 ```
 
-It checks JSON formatting, notebook editing and saving, Lua/Python/TypeScript/Rust LSP attachment, keymaps,
+It checks keymap descriptions and groups, explorer paths, JSON formatting, notebook editing and saving,
+Lua/Python/TypeScript/Rust LSP attachment,
 first-save Lua formatting, native plugin components, and Markdown/text diagnostics.
 AI authentication and real project debug/test sessions require a manual check.
