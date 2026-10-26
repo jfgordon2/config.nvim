@@ -1,93 +1,210 @@
-# Native Neovim test configuration
+# Introduction
 
-This is an independent migration of your existing configuration to Neovim 0.12+
-`vim.pack`. Launch it with:
+Personal Neovim configuration based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
+and influenced by [LazyVim](https://github.com/LazyVim/LazyVim).
+
+This is the `vim-pack` branch of [jfgordon2/config.nvim](https://github.com/jfgordon2/config.nvim),
+using Neovim's native `vim.pack` plugin manager. The [main branch](https://github.com/jfgordon2/config.nvim/tree/main)
+uses lazy.nvim.
+
+## Installation
+
+### Install Neovim
+
+Neovim **0.12 or newer** is required. On macOS, use [Homebrew](https://formulae.brew.sh/formula/neovim):
 
 ```sh
-NVIM_APPNAME=nvim-pack-test nvim
+brew install neovim
 ```
 
-Normal `nvim` continues to use your original Lazy configuration. `NVIM_APPNAME`
-also gives this configuration separate plugins, Mason tools, parsers, sessions,
-undo, shada, cache, and logs. Keep the environment variable when using `-u`:
+Check the installed version with `nvim --version`.
+
+### Install External Dependencies
+
+External requirements:
+
+- Basic tools: `git`, `make`, `unzip`, `tar`, `curl`, and a C compiler (Clang or GCC).
+- [Tree-sitter CLI](https://github.com/tree-sitter/tree-sitter/tree/master/crates/cli), installed through your package manager.
+- [ripgrep](https://github.com/BurntSushi/ripgrep#installation) for searching.
+- A clipboard provider appropriate to your platform, such as xclip, xsel, or win32yank.
+- A [Nerd Font](https://www.nerdfonts.com/) for icons. Configure `vim.g.have_nerd_font`
+  in `lua/config/init.lua` to match your terminal font.
+- Language toolchains as needed: Node.js/npm, Python 3 with pip/venv, Go, and Rust/Cargo.
+  Python debugging also uses `uv`.
+
+Mason installs the configured language servers, linters, formatters, and debugger
+adapters. Some tools still come from their language toolchains, such as `rustfmt`
+and `gofmt`. Use `:Mason` to inspect tool installation.
+
+### Install the Configuration
+
+Neovim's default configuration directory depends on your OS:
+
+| OS | Path |
+| :-- | :--- |
+| Linux, macOS | `$XDG_CONFIG_HOME/nvim`, or `~/.config/nvim` |
+| Windows (cmd) | `%LOCALAPPDATA%\nvim\` |
+| Windows (PowerShell) | `$env:LOCALAPPDATA\nvim\` |
+
+Back up an existing configuration before replacing it. To try this branch in
+parallel, use the separate-profile example in the FAQ below.
+
+#### Recommended Step
+
+[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repository
+so you have your own copy to modify, then clone your fork using the commands below.
+Replace `jfgordon2` with your GitHub username and keep `--branch vim-pack`.
+
+Your fork's URL will look like `https://github.com/<your_github_username>/config.nvim.git`.
+Keep `nvim-pack-lock.json` in version control so plugin revisions can be restored.
+
+#### Clone config.nvim
+
+<details><summary> Linux and Mac </summary>
 
 ```sh
-NVIM_APPNAME=nvim-pack-test nvim -u ~/.config/nvim-pack-test/init-minimal.lua
-NVIM_APPNAME=nvim-pack-test nvim -u ~/.config/nvim-pack-test/init-debug.lua
+git clone --branch vim-pack https://github.com/jfgordon2/config.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 ```
 
-## Layout
+</details>
 
-- `lua/config/packages.lua`: flat native repository/version inventory, including dependencies.
-- `lua/config/pack_build.lua`: install/update build hooks, registered before any native package operation.
-- `lua/config/pack.lua`: explicit setup order and convenience commands.
-- `lua/config/tools.lua`: shared language-server, linter, formatter, and Mason package selections.
-- `lua/config/mason.lua`: the one tool installer, including debug adapters.
-- `lua/config/icons.lua`: icon definitions imported locally by consumers.
-- `lua/config/buffers.lua`: shared buffer actions.
-- `lua/data/fortunes.lua`: fortune content kept separate from plugin setup.
-- `lua/plugins/`: existing plugin settings and mappings, expressed as plain setup functions.
-- `nvim-pack-lock.json`: native lockfile, generated from the original plugin revisions.
+<details><summary> Windows </summary>
 
-There is no Lazy, compatibility layer, manager wrapper, or custom lazy loader.
-Plugin code is made available at startup; setup happens before the first file
-opens so formatting, linting, sessions, and LSP work on the first event. The
-Python virtualenv mapping remains buffer-local. Floaterm remains disabled.
+If you're using `cmd.exe`:
 
-## Managing plugins
+```bat
+git clone --branch vim-pack https://github.com/jfgordon2/config.nvim.git "%LOCALAPPDATA%\nvim"
+```
 
-- `:PackStatus`: native offline plugin review; does not fetch.
-- `:PackUpdate`: fetch and review updates. Use `:write` to apply or `:quit` to cancel.
-- `:PackRestore`: review restoring the current native lockfile's revisions, offline.
-- `:PackBuild LuaSnip`, `:PackBuild telescope-fzf-native.nvim`, or `:PackBuild nvim-treesitter`: rerun a build.
-- Remove an entry from `packages.lua`, restart, then call `:lua vim.pack.del({'plugin-name'})` to delete it.
+If you're using PowerShell:
 
-After updates, restart Neovim. Track `nvim-pack-lock.json` along with the config.
-To roll back, restore an earlier lockfile, restart, and run `:PackRestore`.
+```powershell
+git clone --branch vim-pack https://github.com/jfgordon2/config.nvim.git "${env:LOCALAPPDATA}\nvim"
+```
 
-Build hooks compile Telescope's native sorter and LuaSnip's jsregexp library,
-and update installed Tree-sitter parsers. Copilot authentication is explicit:
-`:CopilotSignin` / `:CopilotSignout`. The separate app may require signing in
-again. Existing authentication files are not copied by this migration.
+</details>
 
-The dashboard's Plugins action opens the native review buffer. Its Lazy-specific
-startup statistics were removed. There is no automatic plugin update checker.
+### Post Installation
 
-Two existing LSP configuration problems were corrected in this copy: Harper's
-settings key is `harper-ls`, and CodeQL has an explicit native server definition.
+Start Neovim:
 
-`<leader>cj` formats JSON in the whole buffer in Normal mode, or only the active
-characterwise/linewise selection in Visual mode. It uses native `vim.json` APIs
-with the buffer's indentation settings, preserves surrounding text and indentation,
-and leaves the buffer unchanged on invalid JSON. Input must be one complete JSON
-value. Key sorting is disabled, though native decoding and re-encoding may still
-change object key order.
+```sh
+nvim
+```
 
-`<leader>cf` and format-on-save also use this native formatter for `json` buffers
-through Conform. JSONC uses Biome to preserve comments. `<leader>cF` shows the
-formatter selected for the current buffer.
+On first startup, `vim.pack` downloads the configured plugins at the revisions in
+`nvim-pack-lock.json`. Build hooks compile LuaSnip's regular-expression support
+and Telescope's native sorter, and update Tree-sitter parsers. Mason installs
+the configured external tools. Allow these installations to finish.
 
-`<leader>c4` converts the current buffer's leading indentation to spaces (four per
-tab stop); `<leader>ct` converts it to tabs with a display width of four. Both set
-buffer-local indentation options for subsequent edits. Formatters still apply
-their configured indentation style when formatting or saving.
+Use `:PackStatus` to inspect plugins and `:Mason` to inspect external tools.
+
+#### Managing Plugins
+
+| Command | Action |
+| :--- | :--- |
+| `:PackStatus` | Inspect plugins without fetching updates. |
+| `:PackUpdate` | Fetch and review updates; `:write` applies them and `:quit` cancels. |
+| `:PackRestore` | Review restoring revisions from the current native lockfile, offline. |
+| `:PackBuild LuaSnip` | Rebuild LuaSnip's regular-expression support. |
+| `:PackBuild telescope-fzf-native.nvim` | Rebuild Telescope's native sorter. |
+| `:PackBuild nvim-treesitter` | Update Tree-sitter parsers. |
+
+Restart Neovim after updating plugins and commit the updated lockfile. To restore
+an older plugin set, restore that version of `nvim-pack-lock.json`, restart, and
+run `:PackRestore`.
+
+Add repositories in `lua/config/packages.lua` and their setup modules in
+`lua/config/pack.lua`. To remove a plugin, remove its inventory entry and setup,
+restart, then delete its installation with `:lua vim.pack.del({'plugin-name'})`.
+See `:help vim.pack` for the native API.
+
+#### Read The Friendly Documentation
+
+Start with `init.lua`, then explore the modules it loads:
+
+- `lua/config/packages.lua`: plugin inventory.
+- `lua/config/pack.lua` and `pack_build.lua`: setup order, commands, and build hooks.
+- `lua/config/tools.lua` and `mason.lua`: language tools and installation.
+- `lua/config/options.lua`, `keymaps.lua`, and `autocmds.lua`: editor behavior.
+- `lua/config/icons.lua` and `buffers.lua`: shared icons and buffer actions.
+- `lua/config/json.lua`: native JSON formatting shared by the JSON mappings and Conform.
+- `lua/plugins/`: plugin settings grouped into UI, editor, tools, LSP, and AI.
+
+For more information about a particular plugin, check its repository's documentation.
+
+### Getting Started
+
+[The Only Video You Need to Get Started with Neovim](https://youtu.be/m8C0Cq9Uv9o)
+
+The leader key is **Space**. Press it and wait to see available mappings.
+
+| Mapping | Action |
+| :--- | :--- |
+| `<leader>cf` | Format the current buffer, or the selected range in Visual mode. |
+| `<leader>cF` | Show the selected formatters. |
+| `<leader>cj` | Format JSON in the whole buffer or the exact Visual selection. |
+| `<leader>c4` | Convert leading indentation to spaces and use four-space tab stops. |
+| `<leader>ct` | Convert leading indentation to tabs displayed four columns wide. |
+
+JSON formatting uses native `vim.json` APIs and the buffer's indentation settings.
+JSONC uses Biome to preserve comments. Native JSON formatting accepts one complete
+JSON value; key sorting is disabled, but decoding and re-encoding may still change
+object key order. Other formatters can enforce their own indentation styles.
+
+### FAQ
+
+- **What should I do if I already have a Neovim configuration?**
+
+  Back up your configuration before replacing it, or use a separate profile as
+  described below. Keep your existing data so you can return to that setup.
+
+- **Can I keep my existing configuration in parallel?**
+
+  Yes. [NVIM_APPNAME](https://neovim.io/doc/user/starting/#%24NVIM_APPNAME)
+  selects a separate configuration and matching data, state, and cache directories.
+  For example, on Linux or macOS:
+
+  ```sh
+  git clone --branch vim-pack https://github.com/jfgordon2/config.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim-pack-test"
+  alias nvim-pack-test='NVIM_APPNAME=nvim-pack-test nvim'
+  ```
+
+  Run `nvim-pack-test` to launch that profile. Normal `nvim` continues to use the
+  configuration in the `nvim` directory.
+
+- **How do I use the minimal or debug entry points with a separate profile?**
+
+  Keep `NVIM_APPNAME` set when using `-u`:
+
+  ```sh
+  NVIM_APPNAME=nvim-pack-test nvim -u "${XDG_CONFIG_HOME:-$HOME/.config}/nvim-pack-test/init-minimal.lua"
+  NVIM_APPNAME=nvim-pack-test nvim -u "${XDG_CONFIG_HOME:-$HOME/.config}/nvim-pack-test/init-debug.lua"
+  ```
+
+- **What if I want to uninstall this configuration?**
+
+  Back up your changes, then remove the configuration directory you installed.
+  To find its associated directories, launch that profile and inspect
+  `:echo stdpath('config')`, `:echo stdpath('data')`, `:echo stdpath('state')`,
+  and `:echo stdpath('cache')`. Remove only directories belonging to that profile,
+  or restore your previous configuration.
+
+- **Why is the configuration split across multiple Lua files?**
+
+  This configuration has grown beyond Kickstart's single-file layout. Core
+  settings live in `lua/config/`, while plugin setup lives in `lua/plugins/`.
+  `init.lua` loads the configuration entry point.
 
 ## Testing
 
-The migration is checked with real startup/file-open runs for Lua, Python, TypeScript, and Rust; original keymaps; first-save Lua formatting; LSP attachment;
-native completion/snippet/sorter libraries; and fresh-install/lockfile-reinstall
-build hooks. `tests/smoke.lua` is the integration check entry point, driven by
-an isolated test runner during the migration. Run it with
-`python3 ~/.config/nvim-pack-test/tests/run.py`. The checks use the current plugin inventory and native lockfile.
-Interactive AI authentication and
-actual project debug/test sessions still need a manual check.
+The integration runner targets the `nvim-pack-test` profile shown above. After
+its plugins and tools finish installing, run:
 
-Plugins and existing tools were seeded as independent copies, not symlinks or
-hard links to the default installation. The inventory now contains 66 plugins after removing standalone mini.icons,
-indent-blankline, and Neoscroll. The existing mini.nvim provides icons; Snacks
-provides indentation and scrolling. Remaining plugin revisions are preserved.
+```sh
+python3 "${XDG_CONFIG_HOME:-$HOME/.config}/nvim-pack-test/tests/run.py"
+```
 
-Rustaceanvim owns Rust LSP and Cargo integration. Ruff, Biome, and Vale use LSP
-for diagnostics; Conform owns formatting. Vale starts only in projects with
-`.vale.ini`. External tools marked `false` in the shared tool definitions are
-provided by system toolchains or are optional Python formatting fallbacks.
+It checks JSON formatting, Lua/Python/TypeScript/Rust LSP attachment, keymaps,
+first-save Lua formatting, native plugin components, and Markdown/text diagnostics.
+AI authentication and real project debug/test sessions require a manual check.
