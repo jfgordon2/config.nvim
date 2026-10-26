@@ -3,9 +3,8 @@
 Personal Neovim configuration based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
 and influenced by [LazyVim](https://github.com/LazyVim/LazyVim).
 
-This is the `vim-pack` branch of [jfgordon2/config.nvim](https://github.com/jfgordon2/config.nvim),
-using Neovim's native `vim.pack` plugin manager. The [main branch](https://github.com/jfgordon2/config.nvim/tree/main)
-uses lazy.nvim.
+This is [jfgordon2/config.nvim](https://github.com/jfgordon2/config.nvim), using
+Neovim's native `vim.pack` plugin manager.
 
 ## Installation
 
@@ -46,14 +45,14 @@ Neovim's default configuration directory depends on your OS:
 | Windows (cmd) | `%LOCALAPPDATA%\nvim\` |
 | Windows (PowerShell) | `$env:LOCALAPPDATA\nvim\` |
 
-Back up an existing configuration before replacing it. To try this branch in
+Back up an existing configuration before replacing it. To try this configuration in
 parallel, use the separate-profile example in the FAQ below.
 
 #### Recommended Step
 
 [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repository
 so you have your own copy to modify, then clone your fork using the commands below.
-Replace `jfgordon2` with your GitHub username and keep `--branch vim-pack`.
+Replace `jfgordon2` with your GitHub username in the commands below.
 
 Your fork's URL will look like `https://github.com/<your_github_username>/config.nvim.git`.
 Keep `nvim-pack-lock.json` in version control so plugin revisions can be restored.
@@ -63,7 +62,7 @@ Keep `nvim-pack-lock.json` in version control so plugin revisions can be restore
 <details><summary> Linux and Mac </summary>
 
 ```sh
-git clone --branch vim-pack https://github.com/jfgordon2/config.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
+git clone https://github.com/jfgordon2/config.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 ```
 
 </details>
@@ -73,13 +72,13 @@ git clone --branch vim-pack https://github.com/jfgordon2/config.nvim.git "${XDG_
 If you're using `cmd.exe`:
 
 ```bat
-git clone --branch vim-pack https://github.com/jfgordon2/config.nvim.git "%LOCALAPPDATA%\nvim"
+git clone https://github.com/jfgordon2/config.nvim.git "%LOCALAPPDATA%\nvim"
 ```
 
 If you're using PowerShell:
 
 ```powershell
-git clone --branch vim-pack https://github.com/jfgordon2/config.nvim.git "${env:LOCALAPPDATA}\nvim"
+git clone https://github.com/jfgordon2/config.nvim.git "${env:LOCALAPPDATA}\nvim"
 ```
 
 </details>
@@ -166,7 +165,7 @@ object key order. Other formatters can enforce their own indentation styles.
   For example, on Linux or macOS:
 
   ```sh
-  git clone --branch vim-pack https://github.com/jfgordon2/config.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim-pack-test"
+  git clone https://github.com/jfgordon2/config.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim-pack-test"
   alias nvim-pack-test='NVIM_APPNAME=nvim-pack-test nvim'
   ```
 
