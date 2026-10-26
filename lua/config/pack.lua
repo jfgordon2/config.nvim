@@ -23,6 +23,7 @@ local modules = {
     'plugins.lsp.lspconfig',
     'plugins.lsp.sonarqube',
     'plugins.lsp.formatting',
+    'plugins.editor.ipynb',
     'plugins.lsp.linting',
     'plugins.tools.telescope',
     'plugins.tools.file-browser',

@@ -151,6 +151,10 @@ JSONC uses Biome to preserve comments. Native JSON formatting accepts one comple
 JSON value; key sorting is disabled, but decoding and re-encoding may still change
 object key order. Other formatters can enforce their own indentation styles.
 
+Open `.ipynb` files to edit notebooks with `ipynb.nvim`. Use `:checkhealth ipynb`
+to check dependencies. Kernel execution requires `jupyter_client` and an installed
+Jupyter kernel in the Python environment selected for the notebook.
+
 ### FAQ
 
 - **What should I do if I already have a Neovim configuration?**
@@ -204,6 +208,6 @@ its plugins and tools finish installing, run:
 python3 "${XDG_CONFIG_HOME:-$HOME/.config}/nvim-pack-test/tests/run.py"
 ```
 
-It checks JSON formatting, Lua/Python/TypeScript/Rust LSP attachment, keymaps,
+It checks JSON formatting, notebook editing and saving, Lua/Python/TypeScript/Rust LSP attachment, keymaps,
 first-save Lua formatting, native plugin components, and Markdown/text diagnostics.
 AI authentication and real project debug/test sessions require a manual check.

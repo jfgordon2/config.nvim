@@ -67,6 +67,10 @@
       "rev": "721a75b9a0c2eb1fb811d34507708ee315cb04eb",
       "src": "https://github.com/m4xshen/hardtime.nvim.git"
     },
+    "ipynb.nvim": {
+      "src": "https://github.com/ajbucci/ipynb.nvim.git",
+      "rev": "9c06504b2597404eceda7da18fd68c0d55edbb4e"
+    },
     "lazydev.nvim": {
       "rev": "ff2cbcba459b637ec3fd165a2be59b7bbaeedf0d",
       "src": "https://github.com/folke/lazydev.nvim.git"

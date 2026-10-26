@@ -7,6 +7,7 @@ local packages = {
     { src = 'https://github.com/OXY2DEV/markview.nvim.git' },
     { src = 'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim.git' },
     { src = 'https://github.com/akinsho/bufferline.nvim.git', version = vim.version.range '*' },
+    { src = 'https://github.com/ajbucci/ipynb.nvim.git' },
     { src = 'https://github.com/altermo/ultimate-autopair.nvim.git' },
     { src = 'https://github.com/antoinemadec/FixCursorHold.nvim.git' },
     { src = 'https://github.com/brenoprata10/nvim-highlight-colors.git' },
