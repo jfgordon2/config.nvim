@@ -256,8 +256,15 @@ M.formatter_packages = {
     isort = false,
     trim_whitespace = false,
 }
--- Tools used by Rustaceanvim, DAP, TypeScript Tools, and SonarQube.
-M.extra_packages = { 'rust-analyzer', 'delve', 'typescript-language-server', 'sonarlint-language-server', 'vale' }
+-- Additional language tools and the CLI used to build Tree-sitter parsers.
+M.extra_packages = {
+    'rust-analyzer',
+    'delve',
+    'typescript-language-server',
+    'sonarlint-language-server',
+    'vale',
+    'tree-sitter-cli',
+}
 function M.packages()
     local packages = {}
     for _, mapping in ipairs { M.server_packages, M.linter_packages, M.formatter_packages } do

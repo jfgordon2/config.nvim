@@ -20,20 +20,13 @@ Check the installed version with `nvim --version`.
 
 ### Install External Dependencies
 
-External requirements:
+Install the system tools and runtimes in [System dependencies](doc/dependencies.md).
+That list covers build tools, search utilities, language runtimes, and optional
+feature dependencies.
 
-- Basic tools: `git`, `make`, `unzip`, `tar`, `curl`, and a C compiler (Clang or GCC).
-- [Tree-sitter CLI](https://github.com/tree-sitter/tree-sitter/tree/master/crates/cli), installed through your package manager.
-- [ripgrep](https://github.com/BurntSushi/ripgrep#installation) for searching.
-- A clipboard provider appropriate to your platform, such as xclip, xsel, or win32yank.
-- A [Nerd Font](https://www.nerdfonts.com/) for icons. Configure `vim.g.have_nerd_font`
-  in `lua/config/init.lua` to match your terminal font.
-- Language toolchains as needed: Node.js/npm, Python 3 with pip/venv, Go, and Rust/Cargo.
-  Python debugging also uses `uv`.
-
-Mason installs the configured language servers, linters, formatters, and debugger
-adapters. Some tools still come from their language toolchains, such as `rustfmt`
-and `gofmt`. Use `:Mason` to inspect tool installation.
+Mason installs the configured language servers, linters, formatters, debugger
+adapters, and Tree-sitter CLI from the shared list in `lua/config/tools.lua`.
+`nvim-treesitter` installs the parsers. Use `:Mason` to inspect tool installation.
 
 ### Install the Configuration
 
@@ -95,6 +88,12 @@ On first startup, `vim.pack` downloads the configured plugins at the revisions i
 `nvim-pack-lock.json`. Build hooks compile LuaSnip's regular-expression support
 and Telescope's native sorter, and update Tree-sitter parsers. Mason installs
 the configured external tools. Allow these installations to finish.
+
+On a fresh machine, let Mason finish installing `tree-sitter-cli`, then restart
+Neovim so parser installation can finish. If a parser build failed during the
+initial setup, run `:PackBuild nvim-treesitter` after restarting. Use
+`:MasonToolsInstall` to retry missing tools and `:checkhealth mason` to check their
+system prerequisites.
 
 Use `:PackStatus` to inspect plugins and `:Mason` to inspect external tools.
 
